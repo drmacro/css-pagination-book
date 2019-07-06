@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE division PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:division" "division.dtd">
+<division
+  id="guide-to-css-specifications">
+  <title>Guide to the CSS Specifications</title>
+  <shortdesc>CSS is not defined in a single publication but is spread across a number of different
+    documents with varying levels of completeness.</shortdesc>
+  <body>
+    <p>TBD: Provide general guidance to the CSS specifications and those specific to CSS
+      pagination.</p>
+  </body>
+</division>

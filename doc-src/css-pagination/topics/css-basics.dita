@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE division PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:division" "division.dtd">
+<division
+  id="css-basics">
+    <title>CSS Basics</title>
+  <shortdesc>A brief introduction to the basics of CSS.</shortdesc>
+    <body>
+        <p>There is no shortage of good introductory material on CSS available. This topic is not
+      intended to replace those resources. Rather, it's mostly just to provide a level set on basic
+      CSS concepts and terminology.</p>
+    <p>A CSS style sheet consists of a set of <term>rules</term>.</p>
+    <p>There are two types of rules: <term>rule sets</term> and <term>at-rules</term>.</p>
+    <p><term>Rule sets</term> are rules that start with a <term>selector</term> and then a
+      declaration <term>block</term> containing zero or more <term>properties</term> to be applied
+      to the elements that match the
+      selector:<codeblock>p.note {
+  margin-left: 1pc;
+  border: 1pt solid black;
+  padding: 4pt;
+}</codeblock></p>
+    <p>A <term>block</term> starts with a left curly brace ('{') and ends with the matching right
+      curly brace ('}').</p>
+    <p>Here <xmlelement>p.note</xmlelement> is the <term>selector</term>, in this case selecting
+        <xmlelement>p</xmlelement> elements with a <xmlatt>class</xmlatt> value that includes the
+      keyword "note" (e.g., <codeph>&lt;p class="note">&lt;/p></codeph>). The <term>block</term>
+      includes three properties, <keyword>margin-left</keyword>, <keyword>border</keyword>, and
+        <keyword>padding</keyword>.</p>
+    <p><term>At-rules</term> are rules that start with
+        <codeph>@<varname>identifier</varname></codeph> and continue up to the next semicolon or
+        <term>block</term>, whichever comes
+      first:<codeblock>@import "page-masters.css" print;
+
+@page :first {
+  counter-reset: page;
+}</codeblock></p>
+    <p>Here the <keyword>@import</keyword> at-rule imports a style sheet named "page-masters.css"
+      when the media query includes "print" and the <keyword>@page</keyword> rule applies to first
+      pages and resets the counter named "page".</p>
+    <p>CSS comments start with "/*" and end with
+      "*/":<codeblock>/* This is a comment 
+   Second line of comment
+ */</codeblock></p>
+    <p>CSS does not have single-line comments.</p>
+    <p>CSS style rules <term>cascade</term> based on <term>precedence</term> such that all the rules
+      that match a given element are combined together to determine the final effective set of
+      properties. Cascading rules are somewhat complex but in general the last declaration in the
+      style sheet wins, which means that you should put more-specific style rules after
+      less-specific style rules.</p>
+    <note>Rather than try to understand and internalize all the rules for style rule precedence and
+      inheritance, I depend on browser's web development tools to show me what actually happened.
+      For example, in Chrome you can inspect an element and see exactly which rules contributed
+      which values to the final property set.</note>
+    <p>You can organize CSS style sheets into separate modules that can be imported using
+        <keyword>@import</keyword> at-rules at the top of the style sheet. You can use a
+      comma-separated list of media types on the <keyword>@import</keyword> rule to limit the
+      imports to specific media, e.g.
+      "print":<codeblock>@import "page-masters.css" <b>print</b>;
+@import "pagination-rules.css" <b>print</b>;
+@import "common.css";</codeblock></p>
+    <p>The URI of the style sheet to be imported can be specified as a quoted string or using the
+        <keyword>url()</keyword>
+      function:<codeblock>@import <b>url("page-masters.css")</b> print;</codeblock></p>
+    <p>All <keyword>@import</keyword> rules must occur before any other rules in the style
+      sheet.</p>
+    <p>Property values are one of the following types:<ul id="ul_eb1_gzh_vcb">
+        <li>Literal strings delimited with single or double
+          quotes:<codeblock>content: "Literal value" 'Another literal value';</codeblock></li>
+        <li>Keywords as defined for the property:<codeblock>display: block;</codeblock></li>
+        <li>Lengths (measurement values), which require a unit
+          indicator:<codeblock>margin-top: 1in;    /* Inches */
+margin-left: 6pc;   /* Picas (12 points) */
+margin-right: 10mm; /* Millimeters */
+font-size: 12pt;    /* Points (1/72 inch) */
+line-height: 1.2em; /* "Em" (current font size) */
+width: 80vw;        /* Percentage of viewport width */
+height: 200px;      /* Pixels */</codeblock></li>
+        <li>Percentages, a number followed by
+          "%":<codeblock>line-height: 120%; /* 120 percent of inherited font size */</codeblock></li>
+        <li>URIs, denoted by the <keyword>url()</keyword>
+          function:<codeblock>background-image: url("images/background-01.png");</codeblock></li>
+        <li>Counters, referenced by name from counter-related
+          properties:<codeblock>counter-increment: chapter-number;</codeblock>Where "chapter-number"
+          is the name of a counter.</li>
+        <li>Colors specified as either a color name, an RGB numeric value, or an
+            <keyword>rgb()</keyword>
+          function:<codeblock>color: red;
+background-color: #C0C0C0; /* Grey */
+border-top-color: rgb(0, 255, 255); /* Cyan */
+border-bottom-color: rgb(0%, 50%, 0%); /* Dark green */</codeblock></li>
+      </ul></p>
+    <p>Unsupported values should be ignored per the CSS specification.</p>
+    <p>Most properties allow the keyword <keyword>inherit</keyword> as a value to indicate that the
+      value should be whatever is inherited from an ancestor. I have not explicitly indicated where
+        <keyword>inherit</keyword> is allowed in the discussion of properties below.</p>
+    <p>In CSS the edges of blocks are labeled "top", "bottom", "left", and "right". These
+      designations are independent of the writing direction of the content.</p>
+    <div outputclass="fo-mapping">
+      <p>XSL-FO uses the terms "before", "after", "start" and "end", as well as "inside" and
+        "outside", to label the edges of blocks in a writing-direction-independent way. "before" and
+        "after" correspond to "top" and "bottom", "before" and "after" correspond to "left" and
+        "right". There is no defined concept of "inside" or "outside" in CSS pagination.</p>
+    </div>
+    <p>CSS defines a number of functions that can be used in property values in various ways, for
+      sample the <keyword>attr()</keyword> function returns the value of the specified attribute of
+      the element selected by the current rule.</p>
+    </body>
+  <division id="topic_srg_wg3_vcb">
+    <title>The <keyword>display:</keyword> Property: Blocks, Inlines, and Tables</title>
+    <body>
+      <p>CSS organizes the content to be displayed into systems of nested boxes or
+          <term>blocks</term>. A given element is basically either a block, an inline, part of a
+        table, or hidden.</p>
+      <p>You use the <keyword>display:</keyword> property to indicate how an element is to be
+        treated for display
+        purposes:<codeblock>p {
+  display: block;
+}
+
+span {
+  display: inline;
+}</codeblock></p>
+      <div outputclass="fo-mapping">The CSS <keyword>display:</keyword> values "block" and
+        "inline" correspond to the FO elements <xmlelement>fo:block</xmlelement> and
+          <xmlelement>fo:inline</xmlelement>.</div>
+      <p>The value "none" for <keyword>display:</keyword> hides the element, potentially treating it
+        as though it had never
+        occurred:<codeblock>div.draft-comment {
+  display: none;
+}</codeblock></p>
+      <p>Note that sometimes you want things to be hidden rather than completely thrown away, in
+        which case you may need to do things like make the font size very small (e.g., "0.1pt") or
+        use a color of "white" to hide it. You may need to check how your CSS engine treats "none"
+        display elements.</p>
+      <p>You can use a <keyword>display:</keyword> value of "table" or one of the other
+        table-component keywords to map non-table elements to a tabular presentation. Depending on
+        your source markup, you may need to generate extra elements to serve as table rows or table
+        cells. Note that you can use :before and :after pseudo elements as cells (but usually not
+        rows).</p>
+    </body>
+  </division>
+  <division id="topic_ucl_p33_vcb">
+    <title>Box Properties: Borders, Margins, and Padding</title>
+    <body>
+      <p>CSS boxes have three properties that determine the effective content area of the box:<ul
+          id="ul_zjb_s33_vcb">
+          <li>Margin: Space from the outside edge of the box to any border or padding.</li>
+          <li>Border: Occurs between the margin and padding.</li>
+          <li>Padding: Occurs between the border and the content rectangle.</li>
+        </ul></p>
+      <p>The margin, border, and padding can be different for each of the four sides of a box.</p>
+      <fig id="fig-box-dimensions">
+        <title>Box dimensions</title>
+          <image placement="break" keyref="image-box-dimensions-01" id="image_fpg_tj3_vcb"/>
+        <p>From <cite><b>Cascading Style Sheets Level 2 Revision 1 (CSS 2.1)
+            Specification</b></cite></p>
+      </fig>
+      <p>The sum of the margin, border, and padding for two parallel sides is subtracted from the
+        total width of the box to determine the width or height of the box's content area.</p>
+      <p>For example, on an 8.5x11 inch page, if you specify a left margin of 1in and right margin
+        of 1.5in, then the width of the page's content area is 8.5 - (1+1.5) or 6in.</p>
+      <p>More generally, margins create vertical space between blocks or create indention for
+        blocks, padding separates the border from the content, and borders are borders.</p>
+      <p>Boxes can nest, so the edge of the content area for an outer box becomes the start of the
+        outside of the margin area for an inner box, as shown here:</p>
+      <fig id="fig_ihx_wm3_vcb">
+        <title>Nested boxes showing margins and padding</title>
+        <image placement="break" keyref="image-nested-boxes-01" id="image_ejk_dn3_vcb" width="4in"/>
+        <p>The source markup for this sample
+          is:<codeblock>&lt;html xmlns="http://www.w3.org/1999/xhtml">
+  &lt;head>
+    &lt;title>Page Margin Boxes&lt;/title>
+    &lt;link rel="stylesheet" type="text/css" href="boxes-margin-padding.css" />
+  &lt;/head>
+  &lt;body>
+    &lt;section>
+      &lt;h1>Page Margin Boxes&lt;/h1>
+      &lt;p>The base definition for &amp;lt;section&amp;gt; is:
+        &lt;code>
+border: solid 1pt black;
+margin-left: 2pc;
+padding: 1pc;          
+        &lt;/code>
+      &lt;/p>
+      &lt;section>
+        &lt;header>
+          &lt;h2>Outer section&lt;/h2>
+        &lt;/header>
+        &lt;section>
+          &lt;header>
+            &lt;h3>Inner section&lt;/h3>
+          &lt;/header>
+          &lt;p>Paragraph in the section. &lt;/p>
+          &lt;p>Paragraph in the section. &lt;/p>
+        &lt;/section>
+      &lt;/section>
+    &lt;/section>
+  &lt;/body>
+&lt;/html></codeblock></p>
+      </fig>
+    </body>
+  </division>
+  <division id="topic_plg_tg3_vcb">
+    <title>Essential CSS Properties</title>
+    <body>
+      <p>The essential properties used to style content for print include:</p>
+      <dl>
+        <dlentry>
+          <dt>display</dt>
+          <dd>Specifies how the element will display, one of:<dl>
+              <dlentry>
+                <dt>inline</dt>
+                <dd>The element generates <term>inline boxes</term>.</dd>
+              </dlentry>
+              <dlentry>
+                <dt>block</dt>
+                <dd>The element generates a <term>box</term>. </dd>
+              </dlentry>
+              <dlentry>
+                <dt>inline-block</dt>
+                <dd>A block that acts as an <term>inline box</term> for purposes of placement in the
+                  flow but acts as a <term>box</term> for the purposes of rendering its content.
+                  Inline blocks are useful for certain special effects.</dd>
+              </dlentry>
+              <dlentry>
+                <dt>list-item</dt>
+                <dd>The element is rendered with a principal block box and a marker box as for HTML
+                  list elements.</dd>
+              </dlentry>
+              <dlentry>
+                <dt>table</dt>
+                <dd>The <keyword>table</keyword> and other table-related values allow you to apply
+                  table formatting to arbitrary elements as long as the element structure provides a
+                  way to express table rows and cells.</dd>
+              </dlentry>
+              <dlentry>
+                <dt>none</dt>
+                <dd>The element is not displayed and has no effect on any surrounding elements.
+                  Compare with <keyword>visibility:</keyword> of "hidden".</dd>
+              </dlentry>
+            </dl><p>When developing CSS style sheets for browser-based display you can depend on the
+              built-in UI style sheet to provide appropriate default <keyword>display:</keyword>
+              values for most elements. However, when setting up print-specific style sheets you
+              often either don't have a built-in base style sheet or you need to override it in
+              order to be able to better control the formatting details of content. Thus you may
+              need to specify <keyword>display:</keyword> more precisely than you would for
+              browser-based styles.</p><p>It is also easy to forget to set
+                <keyword>display:</keyword> to "block" and wonder why your block-specific properties
+              like margins and indents are not being applied.</p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>font-family</dt>
+          <dd>Specifies the font to use for a given element. The value is a sequence of one or more
+            font names or generic font family
+              names:<codeblock>body {
+  font-family: "Verdana", sans-serif;
+}</codeblock><p>The
+              generic font family names are:<ul id="ul_is4_2c3_vcb">
+                <li><keyword>serif</keyword>: Specifies a serif font, e.g., Times Roman.</li>
+                <li><keyword>sans-serif</keyword>: Specifies a sans-serif font, e.g., Helvetica or
+                  Arial.</li>
+                <li><keyword>monospace</keyword>: Specifies a font where all the characters have the
+                  same width, e.g., Courier.</li>
+                <li><keyword>cursive</keyword>: A cursive font, e.g. Zapf-Chancery.</li>
+                <li><keyword>fantasy</keyword>: Display fonts, e.g., Western.</li>
+              </ul></p><p>Font family names should always be quoted. Generic font family names are
+              never quoted.</p><p>Font are evaluated from left to right in the list and the first
+              font found is used. The details of how font names used on the
+                <keyword>font-family:</keyword> property are matched to actual fonts is a function
+              of how your CSS pagination engine is configured. For example, Antenna House Formatter
+              uses a font mapping configuration to map font names as used on the
+                <keyword>font-family:</keyword> property to actual font files. The configuration
+              details may differ based operating system as well.</p><p>Font configuration and
+              management is always a challenge. Be prepared to spend more time than you wanted to or
+              expected to getting your fonts set up, especially for non-Western languages or for
+              highly-designed publications where font details are both varied and
+              important.</p><p>One potential aid to font madness is the open-source Noto fonts from
+              Google. The Noto ("not tofu") fonts are a set of Unicode fonts that provide coverage
+              for pretty much all modern scripts with high-quality and locale-appropriate glyphs,
+              including Asian scripts, South-Asian scripts, Arabic, and Hebrew. By providing a
+              single set of open-source fonts, the Noto font make it easy to produce publishable
+              results for pretty much any language without having to invest in licensed
+            fonts.</p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>font-style</dt>
+          <dd>Specifies the style of the font: <keyword>normal</keyword>, <keyword>italic</keyword>,
+            or
+            <keyword>oblique</keyword>:<codeblock>span.varname {
+  font-style: italic;
+}</codeblock></dd>
+        </dlentry>
+        <dlentry>
+          <dt>font-weight:</dt>
+          <dd>The weight of the font: One of <keyword>normal</keyword>, <keyword>bold</keyword>,
+              <keyword>bolder</keyword>, <keyword>lighter</keyword>, <keyword>100</keyword>,
+              <keyword>200</keyword>, <keyword>300</keyword>, <keyword>400</keyword>,
+              <keyword>500</keyword> | <keyword>600</keyword>, <keyword>700</keyword>,
+              <keyword>800</keyword>, or
+              <keyword>900</keyword>.<codeblock>emph {
+  font-weight: bold;
+}</codeblock><p>The
+              value <keyword>400</keyword> is equivalent to <keyword>normal</keyword>, higher
+              numbers are more bold, lower numbers are less bold. The value <keyword>bold</keyword>
+              is equivalent to <keyword>700</keyword>.</p><p>Note that how
+                <keyword>font-weight:</keyword> values get mapped to specific fonts is a function of
+              how your CSS pagination engine does font mapping. For example, Antenna House Formatter
+              provides a way to indicate, for each font, how specific font weight, style, and
+              variant values map to specific fonts.</p><p>For best typographic results you will
+              usually have separate fonts for each combination of style, weight, and variant, such
+              as a bold version of a font and a bold-italic version of a font.</p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>font-stretch</dt>
+          <dd>Specifies the degree of compression or expansion for the font. Values are
+              <keyword>normal</keyword>, <keyword>ultra-condensed</keyword>,
+              <keyword>extra-condensed</keyword>, <keyword>condensed</keyword>,
+              <keyword>semi-condensed</keyword>, <keyword>semi-expanded</keyword>,
+              <keyword>expanded</keyword>, <keyword>extra-expanded</keyword>,
+              <keyword>ultra-expanded</keyword>. For best typographic effect these values should
+            correspond to actual fonts rather than allowing the CSS processor to simulate the
+            compression or expansion.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>font-variant</dt>
+          <dd>Specifies the variant of the font, currently limited to <keyword>small-caps</keyword>
+            or
+              <keyword>normal</keyword>.<codeblock>span.apiname {
+  font-variant: small-caps;
+}</codeblock><p>Note
+              that for best results you should use a specific small-caps font rather than letting
+              the CSS engine simulate small caps.</p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>font-size</dt>
+          <dd>Specifies the size of the font, as an absolute size keyword, a relative size keyword,
+            a measurement, e.g. "12pt", or a relative size, either using "em" units or a
+            percentage.</dd>
+          <dd>For print-focused typography you are usually going to want to specify font sizes using
+            measurements, usually points, rather than using relative keywords or percentages.</dd>
+          <dd>For best typographic results the font sizes you specify should match the actual font
+            sizes provided for the fonts you're using, although for most purposes is probably
+            doesn't matter.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>margin-left</dt>
+          <dd>For blocks, the left margin defines the indention for the entire block. Assuming that
+            you do not want to draw a left-side border that aligns with the outer edge of the
+            containing block, <keyword>margin-left:</keyword> is the appropriate property to use. If
+            you want to draw a border on the outer edge of the block and still have an indention,
+            use <keyword>padding:</keyword> instead of <keyword>margin-left:</keyword>.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>text-indent</dt>
+          <dd>Specifies the left-edge indention of the first line of a block. For example, to define
+            paragraphs with a 1 pica first-line indent, you would
+            specify:<codeblock>p {
+  display: block;
+  text-indent: 1pc;
+}</codeblock></dd>
+        </dlentry>
+        <dlentry>
+          <dt>margin-top</dt>
+          <dt>margin-bottom</dt>
+          <dd>The <keyword>margin-top:</keyword> and <keyword>margin-bottom:</keyword> properties
+            specify the space above and below a block, respectively.<p>Note that in most
+              circumstances, the vertical borders of adjoining blocks <term>collapse</term>, with
+              the resulting margin being the larger of the two collapsed margins. For example, if a
+              paragraph is defined to have a bottom margin of 2em and the following block has a top
+              margin of 3em, there would be a total of 3em of space from the bottom of the
+              paragraph's content area to the top of the following block's content area. You can
+              change this behavior but normally this is the behavior you want.</p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>padding</dt>
+          <dd>The space between any border and the content area of a block. Use
+              <keyword>padding:</keyword> to create space between a border and content inside the
+            box:<codeblock>p.boxed {
+  border: solid 0.5pt black;
+  <b>padding: 4pt;</b>
+}</codeblock></dd>
+        </dlentry>
+        <dlentry>
+          <dt>text-align</dt>
+          <dd>Within a block, specifies how the text is aligned relative to the left and right edges
+            of the content area. Values are <keyword>left</keyword>, <keyword>center</keyword>,
+              <keyword>right</keyword>, and <keyword>justify</keyword>.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>text-align-last</dt>
+          <dd>Specifies the alignment for the last or only line in a block, or a line before a
+            forced line break. <p>Particularly useful for lines with leaders to force the line to
+              extend to the right (end) edge of the block, such as in tables of contents. To achieve
+              this effect, specify a value of
+              "justify":<codeblock>div.tocentry {
+  text-align: left;
+  <b>text-align-last: justify;</b>
+}
+
+div.tocentry > span.pageref:before {
+  content: leader(dotted);
+}</codeblock></p><p>Where
+              the markup for the table of contents entry
+              is:<codeblock>&lt;div>
+  &lt;span class="title">Chapter 1&lt;/span>
+  &lt;span class="pageref">&lt;a href="#chapter-01"/>&lt;/span>
+&lt;/div></codeblock></p><p>The
+              value "justify" for <keyword>text-align-last:</keyword> causes the line (or last line)
+              of the tocentry paragraph to be justified to the right (end) edge of the block. The
+              leader created as the <keyword>:before</keyword> psuedo-element for the pageref span
+              takes as much space as possible, so it will extend from the title text to the start of
+              the page reference:<fig id="fig_swc_y3l_vcb">
+                <title>Effect of <keyword>text-align-last:</keyword> of "justify" with
+                  leaders</title>
+                <image placement="break" keyref="text-align-last-01" id="image_cnz_fjl_vcb"
+                  width="4in"/>
+              </fig></p><div outputclass="fo-mapping">Leaders in CSS are always as long as possible,
+              while in XSL-FO you can specify an exact length for leaders. To create a leader with a
+              specific length, enclose it in an inline block or block with a fixed width.</div></dd>
+        </dlentry>
+        <dlentry>
+          <dt>color</dt>
+          <dd>Specifies the foreground color of the content.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>background-color</dt>
+          <dd>Specifies the background color of the element's box.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>text-decoration</dt>
+          <dd>Specifies the decoration to apply to inline blocks: <keyword>none</keyword>,
+              <keyword>underline</keyword>, <keyword>overline</keyword>,
+              <keyword>line-through</keyword>, <keyword>blink</keyword>.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>text-transform</dt>
+          <dd>Transforms the case of the element: <keyword>capitalize</keyword>,
+              <keyword>uppercase</keyword>, <keyword>lowercase</keyword>, or
+            <keyword>none</keyword>.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>letter-spacing</dt>
+          <dd>Defines the additional spacing to add between letters within words.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>word-spacing</dt>
+          <dd>Defines the additional spacing to add between words. Word spacing is also affected by
+            justification.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>content</dt>
+          <dd>Specifies the effective content of the element. The value can be any combination of
+            literal text, string variable references, counter references or a single reference to an
+            element variable (saved using a <keyword>position:</keyword> value of
+              <keyword>running()</keyword>).<p>Most often used to generate text before or after an
+              element using the <keyword>:before</keyword> and <keyword>:after</keyword> pseudo
+              elements:<codeblock>div.note {
+  counter-increment: noteCtr;
+  display: block;
+}
+
+div.note:before {
+  display: inline-block;
+  content: "Note" counter(noteCtr);
+  font-weight: bold;
+  margin-right: 4pt;
+}</codeblock></p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>direction</dt>
+          <dd>Specifies the writing direction of the element's content, <keyword>ltr</keyword> for
+            left-to-right, <keyword>rtl</keyword> for right-to-left. For right-to-left content you
+            may need to also specify the <keyword>unicode-bidi:</keyword> property to completely
+            control the correct ordering of text, especially when there is a mix of right-to-left
+            and left-to-right content in the same element.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>writing-mode</dt>
+          <dd>CSS 3 Candidate Recommendation,<cite>CSS Writing Modes Level 3</cite>, provides the
+              <keyword>writing-mode:</keyword> property, which lets you specify horizontal and
+            vertical writing modes, as used in Asian writing systems.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>float</dt>
+          <dd>Turns the element into a floated element. See <xref href="#floats" format="dita"/> for
+            details.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>line-height</dt>
+          <dd>Specifies the minimum height of line boxes within the element. Value is a measurement.
+            Normal practice is to specify a percentage of the current font size using a bare number,
+            which is a multiplier on the font size (e.g., 1.2), a percentage value (e.g., 120%), or
+            a fractional em value (e.g., 1.2em). Note that the precise position of the baseline
+            within the line box is determined by font metrics.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>vertical-align</dt>
+          <dd>Controls the vertical alignment of an inline box relative to its containing block.
+            Used primarily to produce superscripts and subscripts.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>orphans</dt>
+          <dd>Specifies the minimum number of lines to leave at the bottom of a page. The default is
+            2 but a more typical value for print is 3.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>widows</dt>
+          <dd>Specifies the minimum number of lines to leave at the top of a page. The default is 2
+            but a more typical value is 3.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>white-space</dt>
+          <dd>Controls how white space is handled in the element. Values are:<dl>
+              <dlentry>
+                <dt>pre</dt>
+                <dd>All white space characters are preserved, as for the HTML
+                    <xmlelement>pre</xmlelement> element.</dd>
+              </dlentry>
+              <dlentry>
+                <dt>nowrap</dt>
+                <dd>White space is collapsed as in normal text, but lines are not wrapped.</dd>
+              </dlentry>
+              <dlentry>
+                <dt>pre-wrap</dt>
+                <dd>White space is preserved but lines can be broken as needed.</dd>
+              </dlentry>
+              <dlentry>
+                <dt>pre-line</dt>
+                <dd>White space is collapsed and lines can be broken at newlines or as needed to
+                  fill lines.</dd>
+              </dlentry>
+            </dl></dd>
+        </dlentry>
+        <dlentry>
+          <dt>break-before</dt>
+          <dt>break-after</dt>
+          <dd>For blocks, specifies the breaks that are allowed or required before, after, or within
+            the block.<note>The <keyword>break-before:</keyword> and <keyword>break-after:</keyword>
+              properties replace the original <keyword>page-break-before:</keyword> and
+                <keyword>page-break-after:</keyword> properties from CSS 2.1 and are no longer
+              specific just to page breaks. These properties are defined in <cite>CSS Fragmentation
+                Module Level 3</cite>.</note><p>Values are:<dl>
+                <dlentry>
+                  <dt>avoid</dt>
+                  <dd>Avoid breaking if possible. Note that this does not prevent page breaks
+                    entirely. CSS does not provide an absolute keep-together property as in XSL-FO.
+                    This can make it hard to control page breaks in some circumstances.<p>Antenna
+                      House Formatter provides an extension property,
+                        <keyword>-ah-keep-together-within-dimension:</keyword>, that provides pretty
+                      good keep control when used with <keyword>break-inside:</keyword>
+                    avoid.</p></dd>
+                </dlentry>
+                <dlentry>
+                  <dt>avoid-page</dt>
+                  <dd>Avoid page breaks but allow column breaks.</dd>
+                </dlentry>
+                <dlentry>
+                  <dt>avoid-column</dt>
+                  <dd>Avoid column breaks when in a multi-column context. </dd>
+                </dlentry>
+                <dlentry>
+                  <dt>always</dt>
+                  <dd>Generate a left or right page break before or after the element.</dd>
+                </dlentry>
+                <dlentry>
+                  <dt>page</dt>
+                  <dd>Generate page break before or after the block.</dd>
+                </dlentry>
+                <dlentry>
+                  <dt>left</dt>
+                  <dd>Generate a page break to a new left-hand page.</dd>
+                </dlentry>
+                <dlentry>
+                  <dt>right</dt>
+                  <dd>Generate a page break to a new right-hand page.</dd>
+                </dlentry>
+              </dl></p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>break-inside</dt>
+          <dd>For blocks, specifies the breaks that are allowed within the block. Values are
+              <keyword>avoid</keyword>, <keyword>avoid-page</keyword>, and
+              <keyword>avoid-column</keyword>, as for <keyword>break-before:</keyword> and
+              <keyword>break-after:</keyword>.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>column-count</dt>
+          <dd>Specifies the number of columns within the element. Multi-column properties are
+            defined in <cite>CSS Multi-column Layout Module Level 1</cite>. A value greater than 1
+            defines a multi-column environment. If <keyword>column-width:</keyword> is
+              <keyword>auto</keyword> this defines the number of columns. If
+              <keyword>column-width:</keyword> is specified then this defines the maximum number of
+            columns.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>column-width</dt>
+          <dd>Specifies the desired width of the columns. Does not guarantee that the columns will
+            be this wide. For print, usually makes more sense to just specify the column count
+            within a block of known width.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>column-gap</dt>
+          <dd>Specifies the gap between columns. The default value is processor dependent.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>column-rule</dt>
+          <dd>Specifies the width, color, and style of the column rule. By default there is no
+            column rule.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>column-span</dt>
+          <dd>Allows an element to span across all the columns of a multi-column display. Values are
+            "all" or "none".</dd>
+        </dlentry>
+        <dlentry>
+          <dt>column-fill</dt>
+          <dd>Specifies how to fill columns. Values are "auto" (no balancing), "balance" (balance on
+            last page), and "balance-all" (balance across all pages).<div outputclass="fo-mapping">In
+              XSL-FO you force column balancing by putting a column-spanning block at the end of the
+              multi-column region. XSL-FO does not provide an option to balance columns across
+              multiple pages.</div></dd>
+        </dlentry>
+        <dlentry>
+          <dt>page</dt>
+          <dd>Species the page masters to use for the element. The value is a sequence of one or
+            more <keyword>@page</keyword> rule identifiers.<p>Note that you cannot usefully specify
+                <keyword>page:</keyword> on empty elements in order to start a new page sequence.
+              Rather you must use <keyword>page:</keyword> on containing elements, e.g.,
+                <xmlelement>section</xmlelement> or <xmlelement>div</xmlelement> elements.</p></dd>
+        </dlentry>
+      </dl>
+    </body>
+  </division>
+  <division id="division_i2b_h5q_vcb">
+    <title>Essential CSS Functions</title>
+    <body>
+      <p>The following functions are of interest when doing pagination.</p>
+      <dl>
+        <dlentry>
+          <dt>attr()</dt>
+          <dd>Gets the value of an attribute of the element selected by the current
+            rule:<codeblock>note:before {
+  content: <b>attr(type)</b> ': ';
+  text-transform: capitalize;
+  font-weight: bold;
+}</codeblock></dd>
+        </dlentry>
+      </dl>
+    </body>
+  </division>
+  <division id="floats">
+    <title>Floats</title>
+    <body>
+      <p>TBD: Describe how to manage floats.</p>
+    </body>
+  </division>
+</division>

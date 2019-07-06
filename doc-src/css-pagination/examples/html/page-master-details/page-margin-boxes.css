@@ -1,0 +1,136 @@
+/* 
+ * Demonstrates the 12 page margin boxes.
+ *
+ */
+ 
+ @page {
+   size: A4;
+   margin: 1.5in;
+   font-weight: bold;
+   font-size: 14pt;
+   font-family: sans-serif;
+
+   
+   @top-left-corner {
+     content: "top-left-corner";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+
+   @top-left {
+     content: "top-left";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+   
+   @top-center {
+     content: "top-center";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+   
+   @top-right {
+     content: "top-right";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+
+   @top-right-corner {
+     content: "top-right-corner";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+   
+   @bottom-left-corner {
+     content: "bottom-left-corner";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+
+   @bottom-left {
+     content: "bottom-left";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+   
+   @bottom-center {
+     content: "bottom-center";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+   
+   @bottom-right {
+     content: "bottom-right";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+
+   @bottom-right-corner {
+     content: "bottom-right-corner";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }   
+   
+   @left-top {
+     content: "left-top";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+   
+   @left-middle {
+     content: "left-middle";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+   
+   @left-bottom {
+     content: "left-bottom";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+   
+   @right-top {
+     content: "right-top";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+   
+   @right-middle {
+     content: "right-middle";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+   
+   @right-bottom {
+     content: "right-bottom";
+     border: solid 0.5pt blue;
+     margin: 4pt;
+     text-align: center;
+   }
+   
+}
+ 
+ body {
+   margin-top: 3in;
+   vertical-align: central;
+   text-align: center;
+   font-family: sans-serif;
+   font-size: 20pt;
+   color: rgb(0%, 50%, 0%);
+   
+ }

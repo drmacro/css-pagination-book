@@ -1,0 +1,35 @@
+/*  Demonstrates use of text-align-last with leaders */
+
+@page {
+  size: 8in 6in;
+}
+
+body {
+  font-family: sans-serif;
+  font-size: 12pt;
+  width: 6in;
+}
+
+section {
+  padding: 1pc;
+}
+
+div.tocentry {  
+  display: block;
+  text-align-last: justify;
+}
+
+section > div > div.tocentry > span.title
+{
+  font-weight: bold;
+}
+
+section > div > div.tocentry > div.tocentry 
+{
+  margin-left: 2pc;
+}
+
+
+div.tocentry > span.pageref:before {
+  content: leader(dotted);
+}

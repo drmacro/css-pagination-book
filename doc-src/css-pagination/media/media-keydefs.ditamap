@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pub-component-map PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:dtd:pub-component-map" "pub-component-map.dtd">
+<pub-component-map>
+  <keydefs>
+    <topicmeta>
+      <navtitle>Media Key Definitions</navtitle>
+    </topicmeta>
+    <keydef keys="image-page-margin-boxes-01" href="page-margin-boxes-01.png" format="png"/>
+    <keydef href="boxdim.png" keys="image-box-dimensions-01" format="png"/>
+    <keydef href="boxes-margin-padding-01.png" keys="image-nested-boxes-01" format="png"/>
+    <keydef href="text-align-last-01.png" keys="text-align-last-01" format="png"/>
+  </keydefs>
+</pub-component-map>

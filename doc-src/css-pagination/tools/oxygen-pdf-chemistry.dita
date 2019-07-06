@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:topic" "topic.dtd">
+<topic
+  id="pdf-chemistry">
+  <title>CSS Engine: oXygen PDF Chemistry</title>
+  <shortdesc>The oXygen PDF Chemistry CSS formatter ...</shortdesc>
+  <body>
+    <p>TBD: Describe the oXygen PDF Chemistry engine</p>
+  </body>
+</topic>

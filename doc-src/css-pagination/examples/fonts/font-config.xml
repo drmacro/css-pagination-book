@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- DOCTYPE font-config SYSTEM "font-config.dtd" -->
+<font-config otf-metrics-mode="typographic" name-processing-mode="windows-name">
+  <!-- add your font folder here -->
+  <font-folder path=".">
+
+    <font-alias file="NotoSans-Bold.ttf">
+      <alias family-name="Noto Sans" weight="bold"/>
+    </font-alias>
+
+    <font-alias file="NotoSans-BoldItalic.ttf">
+      <alias family-name="Noto Sans" weight="bold" italic="true"/>
+    </font-alias>
+
+    <font-alias file="NotoSans-Italic.ttf">
+      <alias family-name="Noto Sans" italic="true"/>
+    </font-alias>
+
+    <font-alias file="NotoSans-Regular.ttf">
+      <alias family-name="Noto Sans"/>
+    </font-alias>
+
+    <font-alias file="NotoSansSymbols-Regular.ttf">
+      <alias family-name="Noto Symbols"/>
+    </font-alias>
+
+    <font-alias file="NotoSerif-Bold.ttf">
+      <alias family-name="Noto Serif" weight="bold"/>
+    </font-alias>
+
+    <font-alias file="NotoSerif-BoldItalic.ttf">
+      <alias family-name="Noto Serif" weight="bold" italic="true"/>
+    </font-alias>
+
+    <font-alias file="NotoSerif-Italic.ttf">
+      <alias family-name="Noto Serif" italic="true"/>
+    </font-alias>
+
+    <font-alias file="NotoSerif-Regular.ttf">
+      <alias family-name="Noto Serif"/>
+    </font-alias>
+    
+    <font-alias file="NotoSansMono-Regular.ttf">
+      <alias family-name="Noto Sans Mono"/>
+    </font-alias>
+
+    <font-alias file="NotoSansMono-Bold.ttf">
+      <alias family-name="Noto Sans Mono" weight="bold"/>
+    </font-alias>
+    
+  </font-folder>
+</font-config>

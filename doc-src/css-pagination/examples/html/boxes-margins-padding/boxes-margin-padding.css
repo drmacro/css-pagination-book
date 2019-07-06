@@ -1,0 +1,27 @@
+/*  Demonstrates effect of margins, padding, and borders */
+
+@page {
+  size: 8in 6in;
+}
+
+body {
+  font-family: sans-serif;
+  font-size: 12pt;
+  width: 6in;
+}
+
+code {
+  display: block;
+  font-family: monospace;
+  font-size: 11pt;
+  white-space: pre-line;
+  margin-top: 6pt;
+  margin-bottom: 6pt;
+  margin-left: 1pc;
+}
+
+section {
+  border: solid 1pt black;
+  margin-left: 2pc;
+  padding: 1pc;
+}

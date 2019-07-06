@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE division PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:division" "division.dtd">
+<division
+  id="introduction">
+  <title>Introduction to CSS Pagination</title>
+  <body>
+    <p>The Cascading Style Sheet specification, CSS, was originally developed to make it easy to
+      apply styles to HTML and XML content in browsers. As originally developed it was not designed
+      to meet the more challenging requirements of paged output. While CSS can be applied to
+      arbitrary XML, it was primarily designed to meet the needs of styling HTML and that continues
+      to be its focus today.</p>
+    <p>In the late 1990's and early 2000s the XSL Formatting Objects specification (XSL-FO or just
+      "FO" for short) was developed as a technology for producing paged output from XML. It met that
+      need well and has been used widely for the production of pages for technical manuals, utility
+      bills and similar business documents, and other publications that require a completely
+      automated publishing process and for which XSL-FO's layout features are sufficient.</p>
+    <p>While XSL-FO works well it requires skills and knowledge that are not widely available.
+      XSL-FO requires the use of XSLT transforms to generate the XSL-FO documents that are then the
+      input to XSL-FO formatting engines. Like any complex and specialized technology, XSL-FO can be
+      a challenge to learn.</p>
+    <p>In the years since the XSL-FO specification was first published the CSS community has started
+      adding pagination features to CSS in order to enable CSS-based styling of paged output as well
+      as browser-based output.</p>
+    <p>I was one of the developers of the XSL-FO specification and one of the earlier implementors
+      of XSL-FO-based systems. At the time, XSL-FO was the only available standard for doing
+      high-quality pagination of XML content (older standards like DSSSL were not supported by that
+      time). It allowed us to implement batch composition that was effective and affordable. One of
+      my earliest XSL-FO clients was Nokia's mobile phone group, who needed to be able to produce
+      mobile phone manuals in more that 40 national languages for release at the same time world
+      wide. They wanted to be able to use a single source format, XML, and a single publication tool
+      chain, something they had not been able to do before. We were able to implement an XSLT- and
+      XSL-FO-based solution that met all their requirements, including publishing documents in
+      Arabic, Hebrew, Thai, and a number of south-Asian scripts, all of which present significant
+      typographic challenges.</p>
+    <p>Fast forward 15 years and the situation had not changed much: XSL-FO was still the only
+      standard for doing high-quality pagination of XML-based content and it was still in wide use.
+      In the DITA community, in particular, XSL-FO was almost universally used for producing
+      printable versions of DITA-based publications. But the use of XSL-FO presented a number of
+      problems: it's a challenging standard to master on its own, the number of people who know it
+      is small, and the free open-source tooling for using XSL-FO with DITA was hard to use, making
+      creating good-looking pages from DITA harder than it should have been.</p>
+    <p>By 2015 the CSS pagination specifications had reached a level of maturity that made it
+      possible to use CSS pagination for the kinds of publications that XSL-FO had been used for up
+      to that point. At the same time, a number of commercial tools emerged that support CSS
+      pagination reasonably well, include the Prince XML product, the Antenna House Formatter CSS
+      processor, and the Vivliostyles in-browser CSS pagination tool. Unfortunately, no
+      sufficiently-complete open-source solution was available (or is available as of spring
+      2018).</p>
+    <p>The use of CSS for pagination in place of XSL-FO offers a number of compelling advantages, if
+      it works:<ul id="ul_vc5_z1b_vcb">
+        <li>Many more people are familiar with CSS and, even if it's not really any easier to do
+          pagination with it, will be more likely to try simply because "it's CSS"</li>
+        <li>Existing CSS skills and knowledge are directly applicable to using CSS for
+          pagination</li>
+        <li>CSS style sheets can be shared between web and print delivery, making it easier to
+          coordinate look and feel among print and online delivery of the same content.</li>
+        <li>It makes a clearer separation between the concern of layout design and implementation
+          ("graphic design") and the data processing needed to prepare content for pagination
+          (transformation). This makes it easier to adjust the styling of publications without
+          needing direct knowledge of XSLT programming.</li>
+        <li>The syntax of CSS is simpler and more compact than the syntax of XSL-FO, making it
+          generally easier to work with, or at least more approachable.</li>
+        <li>There is a lot of tooling and infrastructure around CSS as a coding format, systems such
+          as sass and less as well as CSS awareness in typical web development tools.</li>
+      </ul></p>
+    <p>CSS for pagination does present some challenges, however:<ul id="ul_bpk_qbb_vcb">
+        <li>There is no sufficiently-complete open-source solution as their is for XSL-FO (the
+          Apache FOP project). That means you must invest in a commercial tool to do anything
+          non-trivial with CSS for pagination.</li>
+        <li>The CSS pagination specifications are not fully developed, meaning that there are
+          aspects that are underspecified or in flux, features that are missing, and so on.</li>
+        <li>The specifications themselves are scattered across many different individual documents,
+          making it a challenge to find answers to specific how-to questions.</li>
+        <li>Except for the book you're reading now, there is no centralized repository of knowledge
+          and guidance for CSS pagination.</li>
+      </ul></p>
+    <p>As someone who has been directly involved with XSL-FO and its application for many years, I
+      have decided that, on balance, CSS for pagination is the better solution for most batch
+      composition applications where the layout requirements can be met by XSL-FO and where budget
+      allows licensing of a commercial CSS pagination tool. My analysis is the CSS-based pagination
+      solutions will be easier to implement and, more importantly, easier to maintain over time,
+      than the equivalent XSL-FO solution. Having spent more than a decade working with XSL-FO I
+      would be happy to never have to work with it again because I find CSS to be that much easier
+      to work with, flaws and all.</p>
+    <p>(There are batch composition applications where XSL-FO cannot meet all the requirements and
+      in those cases proprietary technology is usually the right answer, such as the Typefi system
+      for use with Adobe Illustrator. And of course in some cases fully-automated layout is simply
+      not possible, such as highly-designed books and magazines, where at least some amount of
+      manual work is always required.)</p>
+    <p>The purpose of this book is to capture the practical knowledge of how to do pagination with
+      CSS that I've developed in the course of doing several CSS pagination projects with
+      sophisticated and challenging layout requirements, projects that I would in the past have used
+      XSL-FO for.</p>
+    <p>My hope is that this book will allow you to be productive with CSS pagination quickly,
+      avoiding the pain I went through to learn how to do this.</p>
+    <p>Make no mistake: creating high-quality pages from sophisticated content is a challenge no
+      matter what technology you use to do it. CSS can't make creating good pages easy any more than
+      InDesign can. What it can do is make not be harder than it has to be and I think that's what
+      CSS largely does, in the context of a batch composition system.</p>
+    <p>This book assumes that you have arbitrary XML representing some kind of publication—DITA,
+      JATS, S20001D, or some home-grown vocabulary—and you want to use CSS to produce pages from
+      it.</p>
+    <p>If you are authoring directly in HTML then your task is only slightly easier. For the
+      purposes of this book, directly-authored HTML is just another flavor of arbitrary XML and all
+      the same workflows and processing pipelines apply.</p>
+  </body>
+</division>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:topic" "topic.dtd">
+<topic
+  id="prince">
+  <title>CSS Engine: Prince</title>
+  <shortdesc>The Prince CSS formatter ...</shortdesc>
+  <body>
+    <p>TBD: Describe the Prince engine</p>
+  </body>
+</topic>

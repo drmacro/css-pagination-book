@@ -1,0 +1,73 @@
+#!/bin/bash
+# Script to run Antenna House XSL Formatter to generate
+# PDF 
+#
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+tempDir="$DIR/../temp"
+
+mkdir -p "$tempDir"
+
+export AHF65_64_DEFAULT_HTML_CSS=$DIR/css/html-default.css
+export AHF65_DEFAULT_HTML_CSS=$DIR/css/html-default.css
+
+# The following variables are taken from the base AHF run.sh. We have
+# to replicate them so that we can set the default HTML CSS value.
+#
+
+# FIXME: Should check to see if this is already set.
+AHF65_64_HOME="/usr/local/AHFormatterV65"
+export AHF65_64_HOME
+
+AHF65_64_LIB_FOLDER=${AHF65_64_HOME}/lib
+AHF65_64_BIN_FOLDER=${AHF65_64_HOME}/bin
+AHF65_64_ETC_FOLDER=${AHF65_64_HOME}/etc
+AHF65_64_SDATA_FOLDER=${AHF65_64_HOME}/sdata
+
+AHF65_64_LIC_PATH=${AHF65_64_ETC_FOLDER}
+export AHF65_64_LIC_PATH
+
+AHF65_64_HYPDIC_PATH=${AHF65_64_ETC_FOLDER}/hyphenation
+export AHF65_64_HYPDIC_PATH
+
+AHF65_64_DMC_TBLPATH=${AHF65_64_SDATA_FOLDER}/base2
+export AHF65_64_DMC_TBLPATH
+
+AHF65_64_FONT_CONFIGFILE=${DIR}/../doc-src/css-pagination/examples/fonts/font-config.xml
+export AHF65_64_FONT_CONFIGFILE
+#echo "Font configuration:"
+#cat "$AHF65_64_FONT_CONFIGFILE"
+#echo "==============="
+
+#
+# End of run.sh variables.
+#
+
+inFile=${1: 0:(${#1} - 1)}
+if [ -d $inFile ]; then 
+  filename=${inFile##*/}
+  filebase=${filename%.*}
+  if [ ! -e $inFile ]; then
+     echo "Could not find expected file \"${inFile}\""
+     exit 1
+  fi
+else 
+  filename=${inFile##*/}
+  filebase=${filename%.*}
+fi
+outFile="${filebase}.pdf"
+
+  
+# Apply AHF to the area tree to produce the final PDF:   
+  cmd="${AHF65_64_HOME}/bin/AHFCmd -i $DIR/ahf-config.xml -x 4 -d $1 -o $outFile -p @PDF"
+  echo "[1] cmd=$cmd"
+  
+  if $cmd; then 
+
+    open "$outFile"
+  
+  fi  
+
+#
+# End of script
+#

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:topic" "topic.dtd">
+<topic
+  id="vivliostyle">
+  <title>CSS Engine: Vivliostyle Formatter</title>
+  <shortdesc>Vivliostyle Formatter is a pure JavaScript CSS pagination engine.</shortdesc>
+  <body>
+    <p>TBD: Describe the Vivliostyle Formatter product.</p>
+  </body>
+</topic>

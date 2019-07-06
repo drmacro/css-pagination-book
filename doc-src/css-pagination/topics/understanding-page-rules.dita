@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE division PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:division" "division.dtd">
+<division id="understanding-page-rules">
+  <title>Creating Page Masters and Page Master Sequences</title>
+  <shortdesc>You use <keyword>@page</keyword> rules to define page masters.</shortdesc>
+  <body>
+    <p>In order to generate pages from your content you must define what those pages look like:
+      their height and width, where the headers and footers go, the details of footnote placement,
+      and so on. These definitions are usually referred to as "page masters".</p>
+    <p>In CSS page masters are defined using <term>page rules</term>:<fn><cite>CSS Paged Media
+          Module Level
+      3</cite></fn><codeblock>@page {
+  size: A4 portrait;
+  counter-increment: page;
+  margin-top: 6pc;
+  margin-bottom: 6pc;
+  margin-left: 8pc;
+  margin-right: 7pc;
+  
+  @bottom-center {
+      content: counter(page);
+      text-align: center;
+  }
+}</codeblock></p>
+    <p>This page rule defines an A4 page with the page number displayed at the center of the bottom
+      of the page.</p>
+    <p>The CSS specification defines a number of page size keywords in addition to letting you specify
+    explicit dimensions. Keywords include "A4", "B4", "letter", "legal", and "ledger"</p>
+    <p>A CSS page has a <term>body region</term>, which is where flowed content goes, and zero or
+      more <term>page margin boxes</term>. The size of the body region is determined by specifying
+      margins for the page.</p>
+    <p>You can specify the size of the page, either using a pre-defined page size keyword, as shown
+      here, using explicit measurements for the height and width. When you use a page size keyword
+      you can specify <keyword>portrait</keyword> or <keyword>landscape</keyword> to indicate the
+      page orientation.</p>
+    <p>A page can have a background image as for any block in CSS.</p>
+    <p>A page can have a footnote area with borders. Footnote areas are only generated if a page has
+      one or more footnotes on it.</p>
+    <p>The above <keyword>@page</keyword> rule defines a generic page. If this was the only
+        <keyword>@page</keyword> rule in the style sheet it would be used for all pages.</p>
+    <p>However, most publications need different page masters for different purposes: left and right
+      pages, first pages, last pages, pages for frontmatter, foldout pages, etc.</p>
+    <div outputclass="fo-mapping">
+      <p>CSS @page rules correspond to FO simple-page-master.</p>
+    </div>
+  </body>
+  <division id="topic_gcq_lpb_vcb">
+    <title>Defining Page Sequences</title>
+    <body>
+      <p>In many publications you will need to define not just individual page masters but
+          <term>page sequences</term>, sets of pages that are used together for specific
+        content.</p>
+      <p>For publications that are intended to be printed on paper, you usually have different page
+        masters for left and right pages. You often also need to account for the first page of the
+        sequence (e.g., chapter openers), the last page of the sequence, and blank pages (for
+        example, to generate "This page intentionally left blank" on blank pages. In addition, first
+        pages usually have different running heads or feet from non-first pages. </p>
+      <div outputclass="fo-mapping">FO conditional page sequence masters become sequences of page
+        rule names coupled with @page rule selectors to get the same effect. CSS page sequence
+        controls are not as complete as FO's but should be sufficient for most use cases.</div>
+      <p>A <keyword>@page</keyword> rule can be applied to pages of specific types using one or more
+          <term>page selectors</term>:<ul id="ul_ugw_fqb_vcb">
+          <li>First page (<keyword>:first</keyword>)</li>
+          <li>Left page:(<keyword>:left</keyword>)</li>
+          <li>Right page (<keyword>:right</keyword>)</li>
+          <li>Blank page (<keyword>:blank</keyword>)</li>
+          <li>Last page (<keyword>:last</keyword>, Antenna House Formatter extension)</li>
+        </ul></p>
+      <p>You can specify one or more page selectors on a <keyword>@page</keyword>
+        rule:<codeblock>@page <b>:left :blank</b> {
+  size: A4 portrait; 
+  counter-increment: page;
+
+  margin-top: 6pc;
+  margin-bottom: 6pc;
+  margin-left: 8pc;
+  margin-right: 7pc;
+  
+  @bottom-center {
+      content: none;
+  }
+}</codeblock></p>
+      <p>For a typical page sequence you need to define a first page rule, a left page rule, and a
+        right page rule. If you have special handling for blank pages, you will need a blank page
+        rule.</p>
+      <p>While there is some cascading of properties from <keyword>@page</keyword> rule to
+          <keyword>@page</keyword> rule, it's limited and somewhat difficult to predict or control.
+        Therefore, it's usually best to define each page master completely.</p>
+      <p>The only exception is using an initial generic <keyword>@page</keyword> rule to set the
+        defaults for all subsequent page rules.</p>
+      <p>For example, if all or most of the pages will have the same size and orientation then it
+        makes sense to use an unqualified <keyword>@page</keyword> rule to define those, allowing
+        you to simplify more specific <keyword>@page</keyword>
+        rules:<codeblock>/* Base page rule for most pages */
+@page {
+  size: A4 portrait; 
+  counter-increment: page;
+  margin-top: 6pc;
+  margin-bottom: 6pc;
+  
+  @bottom-center {
+      content: counter(page);
+      text-align: center;
+  }
+}
+
+/* Duplex pages with wider
+   binding-edge margins:
+ */
+@page left: {
+  margin-left: 5pc;
+  right-right: 8pc;
+}
+
+@page right: {
+  margin-left: 8pc;
+  right-right: 5pc;
+}</codeblock></p>
+      <p>This set of <keyword>@page</keyword> rules defines all pages to be A4 portrait pages with
+        the page number at the bottom. The left and right page rules create a wider binding (inside)
+        edge margin, typical for duplex (double sided) pages.</p>
+      <p>For many documents you need not just different first or left and right pages, but different
+        pages for different parts of your publication.</p>
+      <p>For example, your frontmatter pages may use roman numerals for the page number or your
+        index pages may have different margins.</p>
+      <p>You create different related sets of page masters by using names on the
+          <keyword>@page</keyword>
+        rules:<codeblock>@page <b>frontmatter</b> left: {
+  margin-left: 5pc;
+  right-right: 8pc;
+
+  @bottom-center {
+      content: counter(page, lower-roman);
+      text-align: center;
+  }
+
+}</codeblock></p>
+      <p>Here "frontmatter" is the <keyword>@page</keyword> rule identifier. </p>
+      <p>You refer to <keyword>@page</keyword> rule identifiers from <keyword>page:</keyword>
+        properties in element-specific
+        rules:<codeblock>section.front {
+  <b>page: frontmatter;</b>
+}</codeblock></p>
+      <p>This rule applies the page rules named "frontmatter" to section elements that have the
+        @class value "front".</p>
+      <p>The CSS processor will automatically select the correct <keyword>@page</keyword> rule based
+        on the type of page being generated—you don't have to specify anything in the
+          <keyword>page:</keyword> property itself.</p>
+      <p>You can specify a list of page rule names on the <keyword>page:</keyword> property in order
+        to define a page sequence.</p>
+      <p>For example, you might need different first page masters for different kinds of sections
+        but all the following pages are the same. Because the first pages are different you need
+        different named rules for each one but you then need to use pages from a different set for
+        the remaining pages. In this example, the last <keyword>@page</keyword> rule defines a page
+        just for the first page of the table of contents. The rule for <codeph>&lt;section
+          class="toc"></codeph> then specifies a sequence page rule names: toc-first
+        portrait.<codeblock>/* Base page rules for portrait pages */
+@page portrait {
+  size: A4 portrait; 
+  counter-increment: page;
+  margin-top: 6pc;
+  margin-bottom: 6pc;
+  
+  @bottom-center {
+      content: counter(page);
+      text-align: center;
+  }
+}
+
+/* Duplex pages with wider
+   binding-edge margins:
+ */
+@page portrait left: {
+  margin-left: 5pc;
+  right-right: 8pc;
+}
+
+@page portrait right: {
+  margin-left: 8pc;
+  right-right: 5pc;
+}
+
+/* Table of Contents first page
+   title starts lower and has
+   a narrower body area.
+ */
+<b>@page toc-first :first :right {</b>
+    <b>margin-top: 3in;
+    margin-left: 10pc;
+    margin-right: 12pc;
+</b><b>}</b>
+
+section.toc {
+  <b>page: toc-first portrait;
+   break-before: right;
+</b>}</codeblock></p>
+      <p>Note that the "toc-first" page rule specifies both <keyword>:first</keyword> and
+          <keyword>:right</keyword>, ensuring that it will only be applied to the first page if it's
+        also a right-hand page.</p>
+      <p>The properties for "toc" sections force a break to a right-hand page before the section,
+        ensuring that it will always start with a right-hand page.</p>
+    </body>
+  </division>
+  <division id="topic_fws_skc_vcb">
+    <title>Creating Running Heads and Feet (and Other Marginalia)</title>
+    <body>
+      <p>You create running heads and feet by defining page margin boxes and specifying what content
+        to put into them.</p>
+      <div outputclass="fo-mapping">CSS page margin boxes correspond to FO edge regions defined in
+        page masters and static content within page sequences. In FO you define the presence, name,
+        and extent of the margin regions in page masters, but specify the region content as part of
+        each page sequence. In CSS the boxes, including their content, are entirely defined in the
+        page master rule.</div>
+      <p>CSS pages have a total of twelve possible margin boxes: one for each corner of the page and
+        three on each side:</p>
+      <fig id="fig-page-margin-boxes">
+        <title>Page margin boxes</title>
+        <image placement="break" keyref="image-page-margin-boxes-01" height="4in"
+          id="image_c5q_1rc_vcb">
+          <alt>Shows the twelve page margin boxes.</alt>
+        </image>
+      </fig>
+      <p>Each page margin box has a corresponding at-rule named for the
+        box:<codeblock>@page {
+  size: A4;
+  counter-increment: page;
+
+  /* Chapter title */
+  @top-left {
+    content: string(chapterTitle);
+    font-size: 9pt;
+  }
+
+  /* Section Title */
+  @top-right {
+    content: string(sectionTitle, first);
+  }
+
+  @bottom-middle {
+    content: counter(page);
+  }
+}</codeblock></p>
+      <p>The vertical extent of top and bottom boxes is determined by the page's top and bottom
+        margin, padding, and border. The horizontal extent of left and right boxes is likewise
+        determined by the page's left and right margin, border, and padding.</p>
+      <p>The horizontal extent of top and bottom boxes and the vertical extent of left and right
+        boxes is determined dynamically by the processor and cannot be explicitly determined through
+        the CSS properties, although you might be able to do tricks with giving elements used by
+        reference in margin boxes fixed extents, depending on what your processor does.</p>
+      <p>The margin box specification seems to indicate that processors should try to divide the
+        available space evenly among the margin boxes while trying to center the center and middle
+        boxes. There is no way, for example, to force the top-left box to be wide and the top middle
+        box to narrow. This can make it a challenge to precisely control the header and footer
+        layout. It's clear that the goal of the CSS design was to make specifying margin boxes easy
+        but it has the effect of not supporting some important use cases. Hopefully this is an area
+        of the spec that will be refined in the future.</p>
+      <p>Note also that the size of the corner regions is determined by the extent of the top and
+        side margins at each corner.</p>
+      <div outputclass="fo-mapping">In XSL-FO you can control how the side regions interact with
+        each other at the corners. In particular, you can set up your pages so that the side regions
+        extend the full vertical extent of the page, which is usually what you want so that the top
+        and bottom regions are aligned with the extent of the body region. You cannot do this in
+        CSS, as the corners are separate boxes and there is no defined way to merge the corner
+        regions with the other regions to create a single page-spanning region.</div>
+      <p>Page margin boxes are only created when the content property of the box is not "none". You
+        can "turn off" a margin box created by an inherited page master by defining the margin box
+        with an explicit <keyword>content:</keyword> value of "none". For example, you might define
+        the running heads and feet in your base page rules and then override the running heads in
+        the first-page master to turn them
+        off:<codeblock>@page first: {
+    
+  /* No running heads on chapter opener pages */
+  @top-left {
+    content: none;
+  }
+
+  @top-right {
+    content: none;
+  }
+
+}</codeblock></p>
+      <p>Note that you do not have direct control over the width of top and bottom margin boxes or
+        the height of left and right margin boxes.</p>
+      <p>You can construct the content of a margin box from literal text, string variables, saved
+        elements, and counter
+        references:<codeblock>@page {
+   ...
+
+  /* Folio-by-chapter numbering */
+  @bottom-center {
+    <b>content: counter(chapter-number) "-" counter(page);
+</b>  }</codeblock></p>
+      <p>This will create the result "1-1" for the first page of the first chapter.</p>
+      <p>CSS provides two mechanisms for capturing content to be used by reference:<ul
+          id="ul_mvs_2wc_vcb">
+          <li>String variables</li>
+          <li>Saved elements</li>
+        </ul></p>
+      <p>String variables can be set from the content or attribute values of elements without
+        disturbing those elements. Saved elements capture entire elements but take those elements
+        out of the main flow.</p>
+      <p>Creating and managing string variables and saved elements is complete subject on its own
+        and is covered elsewhere.</p>
+      <p>String variables are easy to create and reference but are limited as to what you can do to
+        style them, as they will reflect only the styles set for the entire box: there is no way to
+        style different referenced string variables differently in a single box.</p>
+      <p>By contrast, element variables are literally moved into the margin box with all their
+        markup structure intact, so you can style them just as you would in any other contexts.</p>
+      <note type="tip">You cannot use saved elements with anything else in the
+          <keyword>content:</keyword> property of a margin box.</note>
+      <p>For example, say you need to have up to three levels of heading reflected in the running
+        heading, with each level on its own line. You can't do this with string variables so you
+        have to use saved
+        elements:<codeblock>@page :right {
+
+  ...
+
+  /* Multi-line running head */
+  @top-right {
+    <b>content: element(sectionTitles last);</b>
+  }
+  ...
+}</codeblock></p>
+      <p>The name "sectionTitles" refers to an element that has been saved by the rule for the
+        element that provides section titles data. The keyword <keyword>last</keyword> indicates
+        that the value should be the last set for the variable on the current page. On a left-hand
+        page you would use the keyword <keyword>start</keyword> to get the value current at the
+        start of the page.</p>
+      <p>The saved element "sectionTitles" could have been created like
+        so:<codeblock>running-head-section-titles {
+  position: running(sectionTitles);
+}</codeblock></p>
+      <p>The <keyword>position:</keyword> property value "running()" takes the context element
+        (&lt;running-head-section-titles> in this case) and saves it for later reference via an
+          <keyword>element()</keyword> reference in a margin box.</p>
+      <note>Elements with a <keyword>position:</keyword> of "running()" are taken out of the normal
+        flow. That means that you can't, for example, store a section's title element and also have
+        that title display in the normal flow. This means that you must have separate elements to
+        hold the structured content you need for margin boxes. This is one of the main reasons that
+        even directly-authored HTML needs to be transformed to make it ready to style with
+        CSS.</note>
+    </body>
+  </division>
+  <division id="topic_amn_bfd_vcb">
+    <title>Footnotes</title>
+    <body>
+      <p>Pages can have a footnote region that is used only if there are footnotes on the page,
+        defined by the <keyword>@footnote</keyword>
+        rule:<codeblock>@page {
+   
+  ...
+
+  @footnote {
+    width: 100%;
+    border-top: 0.5pt solid black;
+    margin-top: 0.5in;
+    border-length: 0.5in;    
+  }
+}</codeblock></p>
+      <p>You create footnotes by using a <keyword>float:</keyword> value of
+        "footnote":<codeblock>aside.footnote {
+  <b>float: footnote;</b>
+  font-weight: normal;
+  font-style: normal;
+  font-size: 10pt;
+  text-align: justify;
+  text-indent: 1pc;
+  text-transform: none;
+}  </codeblock></p>
+      <p>When you create a footnote float, a <keyword>::footnote-call</keyword> pseudo-element is
+        left in its place so you can create an appropriate footnote reference,
+        e.g.:<codeblock>aside::footnote-call {
+  content: counter(footnote);
+  font-size: 8pt;
+  vertical-align: super;
+}</codeblock></p>
+      <p>The counter named "footnote" is not built in—you need to define the count to use for
+        footnotes in your page masters. See <xref href="#topic_zdz_y1d_vcb" format="dita"/>.</p>
+      <p>With the footnote area the floated footnote element is preceded by a
+          <keyword>::footnote-marker</keyword> pseudo-element, which you can use to generate the
+        footnote number or callout within the footnote
+        area:<codeblock>aside::footnote-marker {
+  content: counter(footnote);
+  font-weight: normal;
+  font-style: normal;
+  font-size: 8pt;
+  vertical-align: super;
+  display: inline;  
+}</codeblock></p>
+      <p>If you want to use a sequence of symbols instead of numbers, you can specify the symbol set
+        as part of the <keyword>counter()</keyword>
+        reference:<codeblock>aside::footnote-call {
+  content: counter(footnote<b>, symbols('*' '†' '‡')</b>);
+  font-size: 8pt;
+  vertical-align: super;
+}
+
+aside::footnote-marker {
+  content: counter(footnote<b>, symbols('*' '†' '‡')</b>);
+  font-weight: normal;
+  font-style: normal;
+  font-size: 8pt;
+  vertical-align: super;
+  display: inline;  
+}</codeblock></p>
+      <p>This will create callouts with the symbols, e.g. "*", "†", "‡", "**", "††", etc.</p>
+      <p>Note that the current CSS footnote specification is underspecified and thus leaves a lot to
+        processors in terms of exactly how to manage the rendition of footnotes. If you have
+        out-of-the-ordinary footnote requirements you will almost certainly need to use extensions
+        provided by your CSS engine.</p>
+    </body>
+  </division>
+  <division id="topic_zdz_y1d_vcb">
+    <title>Page Numbers and Other Counters</title>
+    <body>
+      <p>CSS does not have a built-in notion of "page number" the way that XSL-FO does, for example,
+        except that it defines two built-in counters: <keyword>page</keyword> and
+          <keyword>pages</keyword>. However, the page number is not really a property of the page or
+        the page sequence the way page numbers are in XSL-FO. In CSS terms, counters defined in
+          <keyword>@page</keyword> rules are scoped to the page, rather than to a specific
+        element.</p>
+      <p>You refer to counters for pages in margin boxes or in the main flow using counter
+        references.</p>
+      <div outputclass="fo-mapping">
+        <p>CSS does not have the same concept of "folio" as FO 1.1 does. In XSL-FO the page number
+          counter is a property of the page sequence. In XSL-FO 1.1 you can also define a prefix and
+          suffix for the folio that is then reflected in page number references. CSS does not have
+          these concepts, so any kind of page number prefix or suffix is created with literal text
+          as part of the <keyword>content:</keyword> property of the margin boxes that reflect page
+          numbers.</p>
+        <p>The CSS equivalent of FO page number setting, resetting, and incrementing is done through
+          normal CSS counter controls within the <keyword>@page</keyword> rule.</p>
+        <p>In CSS you create a new variable simply by naming it in a
+            <keyword>counter-reset:</keyword> or <keyword>counter-increment:</keyword>
+          property:<codeblock>/* Base page definition */
+@page {
+  <b>counter-increment: page;</b>
+}
+
+@page :first {
+  <b>counter-reset: page;</b>
+}</codeblock></p>
+        <p>The first <keyword>@page</keyword> rule have the effect of creating counter named "page"
+          and indicates that it should be incremented for each new page (the initial value of a
+          counter is zero (0) unless explicitly set to a different value).</p>
+        <p>The <keyword>@page</keyword> rule for <keyword>:first</keyword> pages resets the counter
+          "page", which sets the counter to zero. The inherited base <keyword>@page</keyword> rule
+          will then cause the counter to be incremented, making the page counter value for first
+          pages "1".</p>
+        <p>Note that there's no magic to the counter name "page" here, it's just an obvious
+          convention.</p>
+        <p>Note that you're not limited to a single counter either.</p>
+        <p>For example, in one of my projects they wanted to have a "page n of m" tagline on pages
+          when doing draft printing, that reflects the absolute page numbers and the total number of
+          pages.</p>
+        <p>To do this I simply created a second counter that is never
+          reset:<codeblock>/* Base page definition */
+@page {
+  counter-increment: page;
+  counter-increment: absPage; /* Absolute page number */
+}</codeblock></p>
+        <p>As part of the HTML preparation transform I generated a paragraph with a fixed ID value
+          as the last paragraph in the book, ensuring that it would always be on the last
+          page:<codeblock>  ...
+  <b>&lt;p id="last-element-in-pub"> &lt;/p></b>&lt;/body>
+&lt;/html></codeblock></p>
+        <p>With those two things I could then create a tagline in one of the otherwise unused margin
+          boxes:<codeblock>@page {
+
+  ...
+
+  @top-left {
+    <b>content: Page counter(absPage) of target-counter('#last-element-in-pub', absPage);</b>
+  }
+  
+  ...
+
+}</codeblock></p>
+        <p>The <keyword>counter()</keyword> function gets the current value of the "absPage" counter
+          while the <keyword>target-counter()</keyword> function gets the value as it is for the
+          referenced element, which we know will always be on the last page.</p>
+        <p>You can increment the counter by a value other than one (1).</p>
+        <p>For example, you need to produce a publication where all the left-hand pages will be
+          printed from your source but the right-hand pages will produced in a different way and
+          interleaved later, but you want the page numbers to be normal, with even numbers on
+          left-hand pages. But you're only generating the left-hand pages, so you need to increment
+          by
+          2:<codeblock>@page {
+  <b>counter-increment: page 2;</b>
+  @bottom-left {
+    content: "Page " counter(page);
+  }
+}
+
+@page :first {
+  <b>counter-reset: page 2;</b>
+}</codeblock></p>
+        <p>The value "page 2" for <keyword>counter-increment:</keyword> says "increment counter
+          'page' by 2". The value "page 2" for the <keyword>counter-reset:</keyword> property says
+          "Set counter 'page' to the value '2'".</p>
+        <p>In a typical publication you will need to count many things in addition to pages:
+          chapters and sections, footnotes, figures, tables, etc.</p>
+        <p>For most of these it is probably easier or better to do the counting in your HTML
+          preparation transform rather than using CSS counters.</p>
+        <p>However, some counters depend on the pagination, such as footnotes.</p>
+        <p>To number footnotes within pages you define a footnote counter and then reset it for each
+          page:<codeblock>@page {
+  counter-reset: footnote;
+
+}</codeblock></p>
+      </div>
+      <p>You create references to the pages numbers of elements using the <keyword>target-counter()</keyword> function 
+      in the <keyword>content:</keyword> property of the element or pseudo-element you want to reflect the page number on.</p>
+      <p>For example, to create table of contents entries with a title, a leader, and a page number, you need a containing
+      element and two subelements, usually <xmlelement>a</xmlelement> elements, one for the title and one for the page reference:
+      <codeblock>
+<![CDATA[
+<div class="toc-entry">
+  <a href="#chapter-01" class="toc-title">Chapter 1. The First Part</a>
+  <a href="#chapter-01" class="toc-pageref"/>
+</div>
+]]>
+      </codeblock>
+      </p>
+      <p>You need the two elements because you need three components, two of which are generated and come after the title: a leader
+      between the title and the page number reference and the page number reference itself.</p>
+      <p>The secret is to use <keyword>text-align-last:</keyword> of <keyword>justify</keyword> on the container of
+      the two parts and use <keyword>target-counter()</keyword> in the content of the page reference to reflect
+      the page number of the target element:
+      <codeblock><![CDATA[        
+div.toc-entry 
+{
+  display: block;
+  text-align-last: justify;
+}
+
+a.toc-title
+{
+  display: inline;
+}
+
+a.toc-title:after
+{
+  content: leader(dotted); // Generate a leader
+}
+
+a.toc-pageref
+{
+  display: inline;
+  content: target-counter(attr(href url), page);
+}
+]]></codeblock>
+      </p>
+      <p>The <keyword>target-counter()</keyword> function specifies the target element as a fragment ID (e.g., "#chapter-01")
+      and the counter to get the value of, here the built-in counter "page".</p>
+      <p>The formatted result should look like:
+<codeblock>
+Americans with Disabilities Act . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5  
+</codeblock>        
+      </p>
+      <p>If you've used <xmlelement>a</xmlelement> elements and not overridden their normal link behavior, both the
+      title and the page number should be links to the target element.</p>
+    </body>
+  </division>
+  <division id="topic_jkr_x1d_vcb">
+    <title>Creating and Managing String and Element Variables</title>
+  </division>
+</division>

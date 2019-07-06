@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pubmap PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:dtd:pubmap" "urn:pubid:dita4publishers.org:doctypes:dita:dtd:pubmap">
+<pubmap chunk="to-content">
+  <pubtitle>
+    <mainpubtitle>CSS Pagination</mainpubtitle>
+    <subtitle>Using CSS to Produce Paged Media</subtitle>
+  </pubtitle>
+  <pubmeta>
+    <author>W. Eliot Kimber</author>
+    <metadata>
+      <keywords>
+        <indexterm>CSS</indexterm>
+        <indexterm>pagination</indexterm>
+        <indexterm>paged media</indexterm>
+        <indexterm>XSLT</indexterm>
+        <indexterm>PDF</indexterm>
+      </keywords>
+    </metadata>
+    <pubrights>
+      <copyrfirst>
+        <year>2018</year>
+      </copyrfirst>
+      <copyrlast>
+        <year>2019</year>
+      </copyrlast>
+      <pubowner><person>W. Eliot Kimber</person></pubowner>
+    </pubrights>
+  </pubmeta>
+  <keydefs>
+    <topicmeta>
+      <navtitle>Key Definitions</navtitle>
+    </topicmeta>
+    <keydef-group>
+      <keydef keys="chapter-intro" href="topics/introduction.dita"/>
+      <keydef href="topics/how-css-pagination-works.dita" keys="how-css-pagination-works"/>
+      <keydef href="topics/guide-to-css-pagination-engines.dita"
+        keys="guide-to-css-pagination-engines"/>
+      <keydef href="topics/guide-to-css-specifications.dita" keys="guide-to-css-specifications"/>
+      <keydef href="topics/understanding-page-rules.dita" keys="understanding-page-rules"/>
+      <keydef href="topics/html-preparation-transforms.dita" keys="html-preparation-transforms"/>
+      <keydef href="topics/css-basics.dita" keys="css-basics"/>
+    </keydef-group>
+    <keydef-group>
+      <keydef href="tools/antenna-house-formatter.dita" keys="tool-guide-antenna-house-formatter"/>
+      <keydef href="tools/prince.dita" keys="tool-guide-prince"/>      
+      <keydef href="tools/vivliostyle.dita" keys="tool-guide-vivliostyle"/>      
+      <keydef href="tools/oxygen-pdf-chemistry.dita" keys="tool-guide-pdf-chemistry"/>      
+    </keydef-group>
+    <keydef-group-mapref href="media/media-keydefs.ditamap"/>
+  </keydefs>
+  <publication>
+    <pubbody>
+      <chapter keyref="chapter-intro">
+        <topicref keyref="how-css-pagination-works"/>
+      </chapter>
+      <chapter keyref="css-basics"/>
+      <chapter keyref="understanding-page-rules"/>
+      <chapter keyref="html-preparation-transforms"/>
+    </pubbody>
+    <backmatter/>
+  </publication>
+</pubmap>

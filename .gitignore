@@ -1,0 +1,7 @@
+dita-ot/
+toolkit-plugins/
+.git-old
+temp/
+out/
+*.ttf
+templates

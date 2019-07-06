@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE division PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:division" "division.dtd">
+<division
+  id="guide-to-css-pagination-engines">
+  <title>Guide to CSS Pagination Engines</title>
+  <shortdesc>What CSS pagination engine should you choose and why?</shortdesc>
+  <body>
+    <p>As of spring 2018 there is no sufficiently complete open-source CSS pagination tool, which
+      means you'll have to license a commercial tool in order to use CSS pagination. Fortunately,
+      all the tools provide some form of evaluation license.</p>
+    <p>This topic provides a guide to the tools available as of spring 2018.</p>
+  </body>
+</division>

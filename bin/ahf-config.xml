@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<formatter-config>
+
+  <formatter-settings
+  />
+  
+  <pdf-settings
+	reverse-page="false"
+  />
+  
+  <font-settings>
+    <script-font
+		serif="Noto Serif"
+		sans-serif="Noto Sans"
+		monospace="Noto Sans Mono"
+	/>
+  </font-settings>
+  
+</formatter-config>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE division PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:division" "division.dtd">
+<division id="html-preparation-transforms">
+    <title>HTML Preparation Transforms</title>
+  <shortdesc>It is always necessary to do some amount of preparation of your HTML to make it ready
+    for pagination with CSS.</shortdesc>
+    <body>
+        <p>While CSS style sheets are relatively easy to author and understand, CSS depends on their
+      being specific structures and structural patterns in the HTML to be styled. In addition, CSS
+      selectors have limitations compared to XPath that again require additional things in the
+      HTML.</p>
+    <p>The assumption here is that the HTML you're starting with is either generated from some
+      non-HTML source such as DITA, DocBook, S1000D, TEI, or any similar documentation-focused XML
+      vocabulary or is authored directly but without requiring authors themselves to add all the
+      things that might be required for pagination.</p>
+    <p>Thus, there always needs to be some amount of preparation applied to the starting HTML to
+      make it ready to be paginated with CSS.</p>
+    <p>The main tasks that the preparation transform needs to perform are:<ul id="ul_gzy_n2h_vcb">
+        <li>Construct elements needed to populate page margin boxes to create running headers,
+          running feet, or side elements (for example thumb tabs).</li>
+        <li>Add @class attribute values or other attributes to elements to work around limitations
+          in CSS selectors. In particular, you cannot select elements based on properties of
+          following siblings or get attribute values from ancestor elements.</li>
+        <li>Generate tables of contents, back-of-the-book indexes, and other structures that are
+          part of your deliverable but not authored in the source.</li>
+        <li>Move elements that are not presented in the order they are authored. For example, in
+          DITA moving the titles of figures to the bottom of the figure container (DITA figures are
+          authored with the figure title as the first subelement of the figure container).</li>
+        <li>Add wrapper elements in order to control page sequence association or otherwise make
+          styling easier.</li>
+      </ul></p>
+    <p>While there are many technology choices for processing HTML and XML the typical way to
+      implement this kind of transformation is XSLT. This topic assumes that you are using XSLT and
+      that you have a basic understanding of XSLT 2. While XSLT 3 is published and supported by at
+      least the Saxon family of XSLT engines, nothing in HTML preparation requires XSLT 3-specific
+      features. Most of what you need to do can be done easily enough in XSLT 1 with the exception
+      of tasks like index generation and other grouping-related tasks, which are very hard to do in
+      XSLT 1 but relatively easy to do in XSLT 2 using the for-each-group instruction.</p>
+    <p>While the concern of CSS styling is largely separate from the concern of HTML preparation,
+      there is some coordination required. In particular, there needs to be agreement on the
+      following details:<ul id="ul_mw1_1qh_vcb">
+        <li><codeph>@class</codeph> attribute values and naming conventions. As a general practice,
+          the <codeph>@class</codeph> values should reflect all semantic distinctions made in the
+          source XML in order to give the CSS author as many options as possible. Some typographic
+          effects may require additional class values, such as classes to reflect details of
+          following siblings or children (because selectors cannot select based on the properties of
+          following siblings or descendants).</li>
+        <li>Structural details, such as where additional <codeph>&lt;div></codeph> or
+            <codeph>&lt;span></codeph> elements are required in order to make styling possible or
+          more convenient. As a general rule, more structure is better but too much structure can
+          make some selection tasks harder. Creating new page sequences with specific page masters
+          requires having wrapper elements to associate the page sequence with, so that may also
+          require the additional of additional wrappers.</li>
+        <li>Generation of elements to be captured as element variables for use in margin boxes.</li>
+        <li>Generation of numbers as literal text with distinguishing markup to avoid the need to
+          use CSS counters where doing the counting in the transform is either required or easier to
+          implement. Doing counting in the transform allows the CSS styles to be more generic. Doing
+          enumeration in with CSS counters makes the transform more generic where there could be
+          presentational differences in how things are numbered.</li>
+        <li>Page number formats for elements that generate page number references. Because page
+          numbering details are not properties of page masters but simply use normal CSS counters,
+          when making a page number reference you have to know, for the element you're referencing,
+          how the page number should be formatted: arabic, roman numerals, or alphabetic. The number
+          format details are not a property of the counter nor are they a property of the page
+          master itself, so you have to specify the number formatting as part of the
+            <keyword>target-counter()</keyword> specification, which means you need to put that
+          information on the element that will generate the page number reference.</li>
+        <li>Markup details for tables of contents and other generated structures.</li>
+      </ul></p>
+    <p>HTML preparation transforms that are intended to be more or less generic so that they can be
+      used for a variety of documents or types of documents and support a variety of different page
+      designs should provide clear extension points to make it easy to adapt them to specific
+      requirements.</p>
+    </body>
+  <division id="topic_gyb_k3h_vcb">
+    <title>Elements for Page Margin Boxes</title>
+    <body>
+      <p>If you have any running heads, feet, or side components that require something more than
+        simple strings, even something as simple as different formatting for inline content, then
+        you need to use CSS element variables to capture the elements using the
+          <keyword>running()</keyword> function in <keyword>position:</keyword> properties. A
+        typical example of this would be a running head that reflects chapter or section titles
+        where the title may contain inline markup that should be reflected in the running head as
+        well. For example, in a software-related manual you might have titles that include mentions
+        of keywords or functions where they keywords or functions are given a distinct typographic
+        treatment.</p>
+      <p>As a general rule, you should assume that all titles reflected in running heads or feet may
+        having embedded markup that needs to be preserved and thus the use of element variables is
+        required.</p>
+      <p>Because elements with a <keyword>position:</keyword> of <keyword>running()</keyword> are
+        taken out of the normal flow, you cannot simply use the element you want to reflect in the
+        margin box directly. You must create a new element whose only purpose is to be the element
+        variable you need for the margin box.</p>
+      <p>For example, if the base HTML markup for a chapter
+        is:<codeblock>&lt;section id="chapter-123" class="chapter">
+  &lt;header>
+    &lt;h1>&lt;span class="enumeration">Chapter 1. &lt;/span>
+        <b>&lt;span class="title">Understanding The &lt;span class="cmd">doall&lt;/span> Command&lt;/span></b>&lt;/h1>
+  &lt;/header>
+  &lt;div>
+    ... body of section ...
+  &lt;/div>
+&lt;/section></codeblock>and
+        you want the content of the "title" <codeph>&lt;span></codeph> element as the running
+        heading, you cannot simply use <codeph>position: running(chapterTitle);</codeph> on the
+          <codeph>&lt;span></codeph> element because that would take it out of the main flow,
+        leaving the chapter title as just "Chapter 1. ".</p>
+      <p>Instead, you need to create a new element that has a copy of the elements you want. Note
+        that you aren't limited to HTML-defined elements at this point, so you can name your
+        generated elements anything you want. An obvious choice is to use the same name for the
+        generated elements as for the element variables that use them. However, the names you use
+        are arbitrary as long as they are sufficiently distinct.</p>
+      <p>If the CSS expects the element variable to have the name "chapterTitle" then the prepared
+        HTML can look like
+        this:<codeblock>&lt;section id="chapter-123" class="chapter">
+  &lt;header>
+    <b>&lt;chapterTitle>&lt;span class="title">Understanding The &lt;span class="cmd">doall&lt;/span> Command&lt;/span>&lt;/chapterTitle></b>
+    &lt;h1>&lt;span class="enumeration">Chapter 1. &lt;/span>
+        &lt;span class="title">Understanding The &lt;span class="cmd">doall&lt;/span> Command&lt;/span>&lt;/h1>
+  &lt;/header>
+  &lt;div>
+    ... body of section ...
+  &lt;/div>
+&lt;/section></codeblock></p>
+      <p>Note that the <codeph>&lt;chapterTitle></codeph> element is the first thing in the
+          <codeph>&lt;header></codeph> element. This is to ensure that it is the first thing on any
+        page started by this section so that the "start" and "first" options for element variable
+        references will produce the correct result.</p>
+      <p>To capture the <codeph>&lt;chapterTitle></codeph> element as an element variable you use
+          <keyword>position:</keyword> with the <keyword>running()</keyword>
+        function:<codeblock>chapterTitle {
+  position: running(chapterTitle);
+}</codeblock></p>
+      <p>This rule selects all <codeph>&lt;chapterTitle></codeph> elements and stores them in an
+        element variable named "chapterTitle". Note that there's no requirement that the element and
+        the element variable have the same name, that's just the convention used here. Because the
+        position of "running" takes element out of the normal flow you don't have to do anything
+        here in order to prevent the <codeph>&lt;chapterTitle></codeph> element from being presented
+        in the main flow.</p>
+      <p>Finally, in the <keyword>@page</keyword> rules for the pages that need to reflect the
+        chapter title in margin boxes, you would refer to the "chapterTitle" variable using the
+          <keyword>element()</keyword>
+        function:<codeblock>@page :left {
+  
+  @top-left {
+    <b>content: element(chapterTitle);</b>
+  }
+}</codeblock></p>
+      <p>Finally, to style the copied <codeph>&lt;span></codeph> element with the chapter title in
+        the margin box, you use a selector that includes the element
+          <codeph>&lt;chapterTitle></codeph>:<codeblock>
+/* Chapter title as used in margin boxes: */
+
+chapterTitle span.title {
+  font-size: 8pt;
+  font-weight: normal;
+}</codeblock></p>
+      <p>The styling for the "cmd" span should not specify it's font size so that it will inherit it
+        in whatever context it occurs
+        in:<codeblock>span.cmd {
+  font-family: monospace;
+  font-weight: bold;
+}</codeblock></p>
+      <p>With these rules and the generated <codeph>&lt;chapterTitle></codeph> element you should
+        now get bold, monospaced font for the command name "doall" in the running heading, as well
+        as in the chapter title as presented in the main flow.</p>
+      <p>Note that there is an unavoidable need for coordination between the author of the CSS style
+        sheet and the author of the HTML preparation transform so that the transform author and CSS
+        author know what elements are required in order to populate the margin boxes
+        appropriately.</p>
+    </body>
+  </division>
+</division>

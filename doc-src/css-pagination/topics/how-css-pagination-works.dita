@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE division PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:division" "division.dtd">
+<division
+  id="how-css-pagination-works">
+  <title>How CSS Pagination Works</title>
+  <shortdesc>CSS pagination takes HTML as input and produces pages as output.</shortdesc>
+  <body>
+    <p>To produce pages from your XML source using CSS you need two things:<ol id="ol_ehz_32b_vcb">
+        <li>A transform, presumably implemented in XSLT, that takes your XML as input and produces
+          what I call "CSS ready" HTML as output.</li>
+        <li>A CSS pagination engine that takes the CSS-ready HTML as input and produces pages (e.g.,
+          PDF) as output.</li>
+      </ol></p>
+    <p>Why is this transform necessary, even if you are authoring directly in HTML?</p>
+    <p>There are two main reasons:<ol id="ol_r23_kfb_vcb">
+        <li>CSS is optimized for use with HTML and most of your existing CSS style sheets will
+          already be for HTML. So it's much easier to style HTML with CSS than to style arbitrary
+          XML.</li>
+        <li>CSS cannot itself do transformation, it only decorates. So if anything in your source
+          needs to be moved or if you need to generate anything, such as tables of contents, there
+          must be a separate transform that does it.</li>
+      </ol></p>
+    <p>Thus, any non-trivial CSS-based pagination system will always involve a transform that
+      produces HTML optimized for styling with CSS. More about these transforms later.</p>
+    <p>I call the transformation that produces pagination-ready HTML the "HTML preparation
+      transform" or sometimes "the HTML preprocessor". The main tasks of the HTML preparation
+      transform are:<ul id="ul_gzy_n2h_vcb">
+        <li>Construct elements needed to populate running headers, running feet, or side elements
+          (for example thumb tabs).</li>
+        <li>To add @class attribute values or other attributes to elements to work around
+          limitations in CSS selectors. In particular, you cannot select elements based on
+          properties of following siblings or get attribute values from ancestor elements.</li>
+        <li>Generate tables of contents, back-of-the-book indexes, and other structures that are
+          part of your deliverable but not authored in the source.</li>
+        <li>Move elements that are not presented in the order they are authored. For example, in
+          DITA moving the titles of figures to the bottom of the figure container (DITA figures are
+          authored with the figure title as the first subelement of the figure container).</li>
+        <li>Add wrapper elements in order to control page sequence association.</li>
+      </ul></p>
+    <p>For most, if not all, typical documentation-focused XML applications there is already one or
+      more general HTML-generation transforms available. So for the HTML preparation transform can
+      either be an extension to these existing transforms or a separate, much simpler transform
+      applied to the HTML produced by these transforms.</p>
+    <p>If you are authoring directly in HTML then the HTML preparation transform should be fairly
+      simple. </p>
+    <p>To actually produce the pages you need a "pagination engine", a processor that takes your
+      prepared HTML and the associated CSS as input and produces pages from it. Note that no
+      browsers are ever likely to do CSS pagination out of the box for a number of reasons, some
+      good, some not so good. So even within a browser you'll need a tool to do the pagination, such
+      as the Vivliostyle engine, which uses JavaScript in the browser to render pages directly (it
+      can also be used as a standalone engine using a JavaScript server).</p>
+    <p>The more typical use case is to use a standalone CSS pagination engine like Antenna House
+      Formatter or Prince, which produce PDF or other formats.</p>
+    <p>For the purposes of this book I will assume that you are using a standalone engine to produce
+      PDFs. Just know that there other options.</p>
+    <p>CSS pagination extends the base CSS model by adding new CSS rules for defining pages and for
+      associating elements with page rules. CSS pagination also provides additional CSS features
+      specific to paged output, such as page number references, footnotes, and additional features
+      for generated text.</p>
+    <p>For the content of pages you use normal CSS styling exactly as you would for HTML rendered in
+      a browser.</p>
+    <p>Note that having the styling definition, the CSS style sheet, separate from the transformation
+      that prepares the source data to be styled, creates an important <term>separation of
+        concerns</term> that is not present in most other batch composition systems and certainly
+      not in most XSL-FO-based publishing processes.</p>
+    <p>The reason this separation of concerns is important is because transforming XML and styling
+      content are two very different skills that are usually done by different people.</p>
+    <p>In an XSL-FO-based approach the graphic designer who designs the layout details has to then
+      communicate the design to an engineer who implements a transform that generates the
+      appropriate XSL-FO markup to achieve the desired design. This either creates a level of
+      separation between the graphic designer and the realization of their design or, as seems to be
+      the case more often, it requires graphic designers to become XSL-FO programmers.</p>
+    <p>By contrast, the CSS-based approach creates a cleaner separation between the graphic design
+      implementation activity, which is mostly implemented through the CSS styule sheets, and the
+      data preparation activity, which is implemented through XSLT or some similar transformation
+      mechanism. While there is still a need for coordination between the graphic designer and the
+      transformation engineer, it is mostly about @class values, elements needed for running heads
+      and feet and generation of things like tables of contents. Once the HTML preparation details
+      have been determined, the styling can be developed and changed without any need for additional
+      transformation engineering work.</p>
+    <p>In addition, the overall complexity of the transformation required is usually much lower than
+      the equivalent XSL-FO-generating transformation would be, making the transformation engineer's
+      job easier and, potentially, making that task accessible to people who are not primarily XSLT
+      engineers. Even if the process requires development of an XML-to-HTML transform for the
+      content, that transform tends to be easier to implement than an XML-to-XSL-FO transform.</p>
+    <p>Basically, a CSS-based pagination process has the effect of breaking the data processing and
+      implementation definition problem into several smaller parts, each one of which is easier to
+      create and manage than a single XML-to-XSL-FO process would be, while also making it easier to
+      apply the right skills to each component of the process.</p>
+  </body>
+</division>

@@ -1,0 +1,265 @@
+/* AH Formatter V6 default CSS for HTML
+   Copyright (c) 2009-2013 Antenna House, Inc. All rights reserved.
+*/
+
+@namespace "http://www.w3.org/1999/xhtml";
+@namespace m "http://www.w3.org/1998/Math/MathML";
+
+title, base, link, meta, style, script,
+head		{ display: none }
+html, address,
+blockquote,
+body, dd, div,
+dl, dt, fieldset, form,
+frame, frameset,
+h1, h2, h3, h4,
+h5, h6, noframes,
+p, center,
+dir, hr, menu, pre,
+main, section, article, aside, header, footer, nav,
+figure, figcaption, legend, listing, plaintext,
+summary, xmp	{ display: block }
+ol, ul		{ display: block }
+li			{ display: list-item }
+table		{ display: table }
+tr			{ display: table-row }
+thead		{ display: table-header-group }
+tbody		{ display: table-row-group }
+tfoot		{ display: table-footer-group }
+col			{ display: table-column }
+colgroup	{ display: table-column-group }
+td, th		{ display: table-cell }
+caption		{ display: table-caption }
+button, textarea, select,
+input		{ display: inline-block }
+input		{ content: attr(value) }
+option		{ display: none }
+option[selected] { display: inline }
+
+th			{ font-weight: bolder; text-align: center }
+caption		{ text-align: center }
+h1			{ font-size: 2em; -ah-margin-before: .67em; -ah-margin-after: .67em }
+h2			{ font-size: 1.5em; -ah-margin-before: .75em; -ah-margin-after: .75em }
+h3			{ font-size: 1.17em; -ah-margin-before: .83em; -ah-margin-after: .83em }
+h4,
+p, blockquote,
+fieldset, form,
+ol, ul, dl,
+menu, dir	{ 
+/*  WEK: Removed to avoid unwanted spacing. */
+}
+ol, ul,
+menu, dir	{ -ah-padding-start: 0em /*  WEK: Set to zero */
+}
+dd			{ -ah-margin-start: 0em /*  WEK: Set to zero */ }
+blockquote	{ -ah-margin-start: 2.5em; -ah-margin-end: 2.5em }
+ol			{ list-style-type: decimal; counter-reset: list-item }
+ul			{ list-style-type: disc; counter-reset: list-item }
+ol, ul		{ list-style-position: outside }
+ol ul, ul ol,
+ul ul, ol ol	{ -ah-margin-before: 0; -ah-margin-after: 0 }
+ul ul, ol ul	{ list-style-type: circle }
+ul ul ul, ol ul ul, ol ol ul, ul ol ul { list-style-type: square }
+li			{ counter-increment: list-item }
+li::marker	{ -ah-margin-end: 0.5em; text-indent: 0; font-variant: tabular-nums }
+/*ul > li::marker	{ -ah-lang: en }*/
+h5			{ font-size: .83em; -ah-margin-before: 1.5em; -ah-margin-after: 1.5em }
+h6			{ font-size: .75em; -ah-margin-before: 1.67em; -ah-margin-after: 1.67em }
+h1, h2, h3, h4,
+h5, h6, b,
+strong		{ font-weight: bolder }
+i, cite, em,
+var, address	{ font-style: italic }
+pre, tt, code,
+kbd, samp	{ font-family: monospace }
+pre			{ white-space: pre }
+big			{ font-size: 1.17em }
+small, sub, sup { font-size: .83em }
+sub			{ vertical-align: sub }
+sup			{ vertical-align: super }
+table		{ 
+/*  WEK Removed default table formattinh. */
+}
+thead, tbody,
+tfoot		{ vertical-align: middle }
+td, th		{ vertical-align: inherit; padding: -ah-attr-from(table, cellpadding px, 1px) }
+col[span], colgroup[span] { table-column-span: attr(span) }
+td[colspan], th[colspan] { table-column-span: attr(colspan) }
+td[rowspan], th[rowspan] { table-row-span: attr(rowspan) }
+tr			{ vertical-align: inherit }
+s, strike, del	{ text-decoration: line-through }
+hr			{ border: 1px inset; color: gray; -ah-margin-before: .5em; -ah-margin-after: .5em; -ah-margin-start: auto; -ah-margin-end: auto }
+u, ins		{ text-decoration: underline }
+img			{ content: attr(src url); width: attr(width px, auto); height: attr(height px, auto); -ah-alttext: attr(alt) }
+object[data] { content: attr(data url); -ah-content-type: attr(type); width: attr(width px, auto); height: attr(height px, auto) }
+embed		{ content: attr(src url); -ah-content-type: attr(type); width: attr(width px, auto); height: attr(height px, auto) }
+a[href]		{ -ah-link: attr(href url) }
+br			{ content: "\A"; white-space: pre-line }
+wbr			{ content: "\200B" }
+q:before	{ content: '\201C' }
+q:after		{ content: '\201D' }
+
+center		{ text-align: center }
+center address, center blockquote, center div,
+center ol, center ul, center dl,
+center h1, center h2, center h3, center h4,
+center h5, center h6, center p,
+center dir, center hr, center menu, center pre,
+center section, center article,
+center aside, center header,
+center footer, center nav,
+center table, center caption { -ah-margin-start: auto !important; -ah-margin-end: auto !important }
+
+:link		{ color: -ah-attr-from(body, link color, blue); text-decoration: underline }
+/*
+:visited	{ color: -ah-attr-from(body, vlink color, purple); text-decoration: underline }
+:active		{ color: -ah-attr-from(body, alink color, red); text-decoration: underline }
+:focus		{ outline: thin dotted invert }
+*/
+bdo { unicode-bidi: bidi-override }
+bdo[dir="ltr"]{ direction: ltr; unicode-bidi: bidi-override }
+bdo[dir="rtl"]{ direction: rtl; unicode-bidi: bidi-override }
+*[dir="ltr"]  { direction: ltr; unicode-bidi: embed }
+*[dir="rtl"]  { direction: rtl; unicode-bidi: embed }
+
+/* a leading newline character immediately following the pre element start tag is stripped */
+pre, textarea { -ah-ignore-leading-newline: true }
+
+/* HTML5 */
+mark	{ background-color: yellow }
+
+video[src] { content: attr(src url); -ah-content-type: attr(type); -ah-poster-image: attr(poster url, auto); width: attr(width px, auto); height: attr(height px, auto) }
+video[controls] { -ah-show-controls: true }
+audio[src] { content: attr(src url); -ah-content-type: attr(type); width: attr(width px, 16px); height: attr(height px, 16px) }
+audio[controls] { -ah-show-controls: true; width: attr(width px, 160px) }
+
+/* Ruby */
+ruby	{ display: ruby }
+rb	{ display: ruby-base }
+rt	{ display: ruby-text }
+rp	{ display: none }
+
+/* Paged Media */
+h1, h2, h3,
+h4, h5, h6, dt { page-break-after: avoid }
+@page {
+	@footnote {
+		/*counter-increment: footnote;*/
+		float: page bottom;
+	}
+	@sidenote {
+		/*counter-increment: sidenote;*/
+		float: outside;
+		clear: both;
+		width: 20%;
+	}
+}
+::footnote-call {
+	content: counter(footnote, decimal);
+	font-size: 60%;
+	vertical-align: super;
+}
+::footnote-marker {
+	content: counter(footnote, decimal);
+	font-size: 60%;
+	vertical-align: super;
+	-ah-margin-end: 0.5em;
+	text-indent: 0;
+}
+
+/* MathML */
+m|math[display=block],
+m|math[mode=display] {
+	display: block;
+	text-align: center;
+	-ah-margin-start: auto;
+	-ah-margin-end: auto;
+}
+
+/* Deprecated HTML attributes */
+body[text] { color: attr(text color) }
+body[bgcolor],table[bgcolor],tr[bgcolor],td[bgcolor],th[bgcolor] { background-color: attr(bgcolor color) }
+font[color] { color: attr(color color) }
+body[background] { background-image: attr(background url) }
+hr[noshade] { border-style: solid }
+hr[size] { height: attr(size px) }
+hr[size][noshade] {
+	border-style: none;
+	border-top-style: solid;
+	border-top-width: attr(size px);
+	height: auto
+}
+hr[size=1] {
+	border-style: none;
+	border-top-style: solid;
+	height: auto
+}
+hr[align=right] { margin-right: 0 }
+hr[align=left] { margin-left: 0 }
+
+*[width] { width: attr(width px) }
+*[height] { height: attr(height px) }
+
+ol[start] { counter-reset: list-item attr(start); counter-increment: list-item -1 }
+li[value] { counter-reset: list-item attr(value); counter-increment: list-item 0 }
+ul[type=disc], li[type=disc] { list-style-type: disc }
+ul[type=circle], li[type=circle] { list-style-type: circle }
+ul[type=square], li[type=square] { list-style-type: square }
+ol[type=1], li[type=1] { list-style-type: decimal }
+ol[type=a], li[type=a] { list-style-type: lower-alpha }
+ol[type=A], li[type=A] { list-style-type: upper-alpha }
+ol[type=i], li[type=i] { list-style-type: lower-roman }
+ol[type=I], li[type=I] { list-style-type: upper-roman }
+
+table[border] { border-style: outset; border-width: attr(border px, 1px) }
+table[border=''] { border-width: 1px }
+table[cellspacing] { border-spacing: attr(cellspacing px, 2px) }
+table[border] > * > tr > td,
+table[border] > * > tr > th { border: inset 1px }
+table[border=0], table[border=0] > * > tr > td,
+table[border=0] > * > tr > th { border-style: none }
+td[valign=top], th[valign=top] { vertical-align: top }
+td[valign=bottom], th[valign=bottom] { vertical-align: bottom }
+td[nowrap], th[nowrap] { white-space: nowrap }
+table[align=right] { margin-left: auto }
+table[align=center] { margin-left: auto; margin-right: auto }
+*:not(table)[align=left] { text-align: left }
+*:not(table)[align=right] { text-align: right }
+*:not(table)[align=center] { text-align: center }
+*:not(table)[align=justify] { text-align: justify }
+caption[align=bottom] { caption-side: bottom }
+img[align=top] { vertical-align: top }
+img[align=middle] { vertical-align: middle }
+img[align=bottom] { vertical-align: bottom }
+img[align=baseline] { vertical-align: baseline }
+img[align=texttop] { vertical-align: text-top }
+img[align=left] { float: left }
+img[align=right] { float: right }
+br[clear=left] { display: block; content: none; clear: left }
+br[clear=right] { display: block; content: none; clear: right }
+br[clear=all] { display: block; content: none; clear: both }
+font[face] { font-family: attr(face) }
+font[color] { color: attr(color) }
+font[size=1] { font-size: x-small }
+font[size=2] { font-size: small }
+font[size=3] { font-size: medium }
+font[size=4] { font-size: large }
+font[size=5] { font-size: x-large }
+font[size=6] { font-size: xx-large }
+font[size=7] { font-size: -ah-xxx-large }
+font[size='+1'] { font-size: 120% }
+font[size='+2'] { font-size: 140% }
+font[size='+3'] { font-size: 166% }
+font[size='+4'] { font-size: 200% }
+font[size='+5'] { font-size: 240% }
+font[size='+6'] { font-size: 280% }
+font[size='+7'] { font-size: 333% }
+font[size='-1'] { font-size: 83% }
+font[size='-2'] { font-size: 70% }
+font[size='-3'] { font-size: 60% }
+font[size='-4'] { font-size: 50% }
+font[size='-5'] { font-size: 42% }
+font[size='-6'] { font-size: 35% }
+font[size='-7'] { font-size: 30% }
+
+
