@@ -15,6 +15,7 @@ The most complete implementations are commercial:
 * Antenna House Formatter, antennahouse.com
 * Prince XML, https://www.princexml.com/
 * VersaType (formerly Vivliostyle) from Trim-Marks: https://trim-marks.com/en/
+
 Open-source implementations include:
 
 * Vivliostyle: https://vivliostyle.org/
