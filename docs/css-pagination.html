@@ -1,0 +1,1497 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2018"><meta name="DC.rights.owner" content="(C) Copyright 2018"><meta name="DC.Type" content="division"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Creator" content="W. Eliot Kimber"><meta name="DC.Format" content="XHTML"><meta name="DC.Identifier" content="introduction"><link rel="stylesheet" type="text/css" href="commonltr.css"><title>Introduction to CSS Pagination</title></head><body><main role="main"><article role="article" aria-labelledby="ariaid-title1"><article class="nested0" aria-labelledby="ariaid-title1" id="introduction">
+  <h1 class="title topictitle1" id="ariaid-title1">Introduction to CSS Pagination</h1>
+  <div class="body">
+    <p class="p">The Cascading Style Sheet specification, CSS, was originally developed to make it easy to
+      apply styles to HTML and XML content in browsers. As originally developed it was not designed
+      to meet the more challenging requirements of paged output. While CSS can be applied to
+      arbitrary XML, it was primarily designed to meet the needs of styling HTML and that continues
+      to be its focus today.</p>
+    <p class="p">In the late 1990's and early 2000s the XSL Formatting Objects specification (XSL-FO or just
+      "FO" for short) was developed as a technology for producing paged output from XML. It met that
+      need well and has been used widely for the production of pages for technical manuals, utility
+      bills and similar business documents, and other publications that require a completely
+      automated publishing process and for which XSL-FO's layout features are sufficient.</p>
+    <p class="p">While XSL-FO works well it requires skills and knowledge that are not widely available.
+      XSL-FO requires the use of XSLT transforms to generate the XSL-FO documents that are then the
+      input to XSL-FO formatting engines. Like any complex and specialized technology, XSL-FO can be
+      a challenge to learn.</p>
+    <p class="p">In the years since the XSL-FO specification was first published the CSS community has started
+      adding pagination features to CSS in order to enable CSS-based styling of paged output as well
+      as browser-based output.</p>
+    <p class="p">I was one of the developers of the XSL-FO specification and one of the earlier implementors
+      of XSL-FO-based systems. At the time, XSL-FO was the only available standard for doing
+      high-quality pagination of XML content (older standards like DSSSL were not supported by that
+      time). It allowed us to implement batch composition that was effective and affordable. One of
+      my earliest XSL-FO clients was Nokia's mobile phone group, who needed to be able to produce
+      mobile phone manuals in more that 40 national languages for release at the same time world
+      wide. They wanted to be able to use a single source format, XML, and a single publication tool
+      chain, something they had not been able to do before. We were able to implement an XSLT- and
+      XSL-FO-based solution that met all their requirements, including publishing documents in
+      Arabic, Hebrew, Thai, and a number of south-Asian scripts, all of which present significant
+      typographic challenges.</p>
+    <p class="p">Fast forward 15 years and the situation had not changed much: XSL-FO was still the only
+      standard for doing high-quality pagination of XML-based content and it was still in wide use.
+      In the DITA community, in particular, XSL-FO was almost universally used for producing
+      printable versions of DITA-based publications. But the use of XSL-FO presented a number of
+      problems: it's a challenging standard to master on its own, the number of people who know it
+      is small, and the free open-source tooling for using XSL-FO with DITA was hard to use, making
+      creating good-looking pages from DITA harder than it should have been.</p>
+    <p class="p">By 2015 the CSS pagination specifications had reached a level of maturity that made it
+      possible to use CSS pagination for the kinds of publications that XSL-FO had been used for up
+      to that point. At the same time, a number of commercial tools emerged that support CSS
+      pagination reasonably well, include the Prince XML product, the Antenna House Formatter CSS
+      processor, and the Vivliostyles in-browser CSS pagination tool. Unfortunately, no
+      sufficiently-complete open-source solution was available (or is available as of spring
+      2018).</p>
+    <div class="p">The use of CSS for pagination in place of XSL-FO offers a number of compelling advantages, if
+      it works:<ul class="ul" id="introduction__ul_vc5_z1b_vcb">
+        <li class="li">Many more people are familiar with CSS and, even if it's not really any easier to do
+          pagination with it, will be more likely to try simply because "it's CSS"</li>
+        <li class="li">Existing CSS skills and knowledge are directly applicable to using CSS for
+          pagination</li>
+        <li class="li">CSS style sheets can be shared between web and print delivery, making it easier to
+          coordinate look and feel among print and online delivery of the same content.</li>
+        <li class="li">It makes a clearer separation between the concern of layout design and implementation
+          ("graphic design") and the data processing needed to prepare content for pagination
+          (transformation). This makes it easier to adjust the styling of publications without
+          needing direct knowledge of XSLT programming.</li>
+        <li class="li">The syntax of CSS is simpler and more compact than the syntax of XSL-FO, making it
+          generally easier to work with, or at least more approachable.</li>
+        <li class="li">There is a lot of tooling and infrastructure around CSS as a coding format, systems such
+          as sass and less as well as CSS awareness in typical web development tools.</li>
+      </ul></div>
+    <div class="p">CSS for pagination does present some challenges, however:<ul class="ul" id="introduction__ul_bpk_qbb_vcb">
+        <li class="li">There is no sufficiently-complete open-source solution as their is for XSL-FO (the
+          Apache FOP project). That means you must invest in a commercial tool to do anything
+          non-trivial with CSS for pagination.</li>
+        <li class="li">The CSS pagination specifications are not fully developed, meaning that there are
+          aspects that are underspecified or in flux, features that are missing, and so on.</li>
+        <li class="li">The specifications themselves are scattered across many different individual documents,
+          making it a challenge to find answers to specific how-to questions.</li>
+        <li class="li">Except for the book you're reading now, there is no centralized repository of knowledge
+          and guidance for CSS pagination.</li>
+      </ul></div>
+    <p class="p">As someone who has been directly involved with XSL-FO and its application for many years, I
+      have decided that, on balance, CSS for pagination is the better solution for most batch
+      composition applications where the layout requirements can be met by XSL-FO and where budget
+      allows licensing of a commercial CSS pagination tool. My analysis is the CSS-based pagination
+      solutions will be easier to implement and, more importantly, easier to maintain over time,
+      than the equivalent XSL-FO solution. Having spent more than a decade working with XSL-FO I
+      would be happy to never have to work with it again because I find CSS to be that much easier
+      to work with, flaws and all.</p>
+    <p class="p">(There are batch composition applications where XSL-FO cannot meet all the requirements and
+      in those cases proprietary technology is usually the right answer, such as the Typefi system
+      for use with Adobe Illustrator. And of course in some cases fully-automated layout is simply
+      not possible, such as highly-designed books and magazines, where at least some amount of
+      manual work is always required.)</p>
+    <p class="p">The purpose of this book is to capture the practical knowledge of how to do pagination with
+      CSS that I've developed in the course of doing several CSS pagination projects with
+      sophisticated and challenging layout requirements, projects that I would in the past have used
+      XSL-FO for.</p>
+    <p class="p">My hope is that this book will allow you to be productive with CSS pagination quickly,
+      avoiding the pain I went through to learn how to do this.</p>
+    <p class="p">Make no mistake: creating high-quality pages from sophisticated content is a challenge no
+      matter what technology you use to do it. CSS can't make creating good pages easy any more than
+      InDesign can. What it can do is make not be harder than it has to be and I think that's what
+      CSS largely does, in the context of a batch composition system.</p>
+    <p class="p">This book assumes that you have arbitrary XML representing some kind of publication—DITA,
+      JATS, S20001D, or some home-grown vocabulary—and you want to use CSS to produce pages from
+      it.</p>
+    <p class="p">If you are authoring directly in HTML then your task is only slightly easier. For the
+      purposes of this book, directly-authored HTML is just another flavor of arbitrary XML and all
+      the same workflows and processing pipelines apply.</p>
+  </div>
+<article class="topic division nested1" aria-labelledby="ariaid-title2" id="how-css-pagination-works">
+  <h2 class="title topictitle2" id="ariaid-title2">How CSS Pagination Works</h2>
+  
+  <div class="body"><p class="shortdesc">CSS pagination takes HTML as input and produces pages as output.</p>
+    <div class="p">To produce pages from your XML source using CSS you need two things:<ol class="ol" id="how-css-pagination-works__ol_ehz_32b_vcb">
+        <li class="li">A transform, presumably implemented in XSLT, that takes your XML as input and produces
+          what I call "CSS ready" HTML as output.</li>
+        <li class="li">A CSS pagination engine that takes the CSS-ready HTML as input and produces pages (e.g.,
+          PDF) as output.</li>
+      </ol></div>
+    <p class="p">Why is this transform necessary, even if you are authoring directly in HTML?</p>
+    <div class="p">There are two main reasons:<ol class="ol" id="how-css-pagination-works__ol_r23_kfb_vcb">
+        <li class="li">CSS is optimized for use with HTML and most of your existing CSS style sheets will
+          already be for HTML. So it's much easier to style HTML with CSS than to style arbitrary
+          XML.</li>
+        <li class="li">CSS cannot itself do transformation, it only decorates. So if anything in your source
+          needs to be moved or if you need to generate anything, such as tables of contents, there
+          must be a separate transform that does it.</li>
+      </ol></div>
+    <p class="p">Thus, any non-trivial CSS-based pagination system will always involve a transform that
+      produces HTML optimized for styling with CSS. More about these transforms later.</p>
+    <div class="p">I call the transformation that produces pagination-ready HTML the "HTML preparation
+      transform" or sometimes "the HTML preprocessor". The main tasks of the HTML preparation
+      transform are:<ul class="ul" id="how-css-pagination-works__ul_gzy_n2h_vcb">
+        <li class="li">Construct elements needed to populate running headers, running feet, or side elements
+          (for example thumb tabs).</li>
+        <li class="li">To add @class attribute values or other attributes to elements to work around
+          limitations in CSS selectors. In particular, you cannot select elements based on
+          properties of following siblings or get attribute values from ancestor elements.</li>
+        <li class="li">Generate tables of contents, back-of-the-book indexes, and other structures that are
+          part of your deliverable but not authored in the source.</li>
+        <li class="li">Move elements that are not presented in the order they are authored. For example, in
+          DITA moving the titles of figures to the bottom of the figure container (DITA figures are
+          authored with the figure title as the first subelement of the figure container).</li>
+        <li class="li">Add wrapper elements in order to control page sequence association.</li>
+      </ul></div>
+    <p class="p">For most, if not all, typical documentation-focused XML applications there is already one or
+      more general HTML-generation transforms available. So for the HTML preparation transform can
+      either be an extension to these existing transforms or a separate, much simpler transform
+      applied to the HTML produced by these transforms.</p>
+    <p class="p">If you are authoring directly in HTML then the HTML preparation transform should be fairly
+      simple. </p>
+    <p class="p">To actually produce the pages you need a "pagination engine", a processor that takes your
+      prepared HTML and the associated CSS as input and produces pages from it. Note that no
+      browsers are ever likely to do CSS pagination out of the box for a number of reasons, some
+      good, some not so good. So even within a browser you'll need a tool to do the pagination, such
+      as the Vivliostyle engine, which uses JavaScript in the browser to render pages directly (it
+      can also be used as a standalone engine using a JavaScript server).</p>
+    <p class="p">The more typical use case is to use a standalone CSS pagination engine like Antenna House
+      Formatter or Prince, which produce PDF or other formats.</p>
+    <p class="p">For the purposes of this book I will assume that you are using a standalone engine to produce
+      PDFs. Just know that there other options.</p>
+    <p class="p">CSS pagination extends the base CSS model by adding new CSS rules for defining pages and for
+      associating elements with page rules. CSS pagination also provides additional CSS features
+      specific to paged output, such as page number references, footnotes, and additional features
+      for generated text.</p>
+    <p class="p">For the content of pages you use normal CSS styling exactly as you would for HTML rendered in
+      a browser.</p>
+    <p class="p">Note that having the styling definition, the CSS style sheet, separate from the transformation
+      that prepares the source data to be styled, creates an important <dfn class="term">separation of
+        concerns</dfn> that is not present in most other batch composition systems and certainly
+      not in most XSL-FO-based publishing processes.</p>
+    <p class="p">The reason this separation of concerns is important is because transforming XML and styling
+      content are two very different skills that are usually done by different people.</p>
+    <p class="p">In an XSL-FO-based approach the graphic designer who designs the layout details has to then
+      communicate the design to an engineer who implements a transform that generates the
+      appropriate XSL-FO markup to achieve the desired design. This either creates a level of
+      separation between the graphic designer and the realization of their design or, as seems to be
+      the case more often, it requires graphic designers to become XSL-FO programmers.</p>
+    <p class="p">By contrast, the CSS-based approach creates a cleaner separation between the graphic design
+      implementation activity, which is mostly implemented through the CSS styule sheets, and the
+      data preparation activity, which is implemented through XSLT or some similar transformation
+      mechanism. While there is still a need for coordination between the graphic designer and the
+      transformation engineer, it is mostly about @class values, elements needed for running heads
+      and feet and generation of things like tables of contents. Once the HTML preparation details
+      have been determined, the styling can be developed and changed without any need for additional
+      transformation engineering work.</p>
+    <p class="p">In addition, the overall complexity of the transformation required is usually much lower than
+      the equivalent XSL-FO-generating transformation would be, making the transformation engineer's
+      job easier and, potentially, making that task accessible to people who are not primarily XSLT
+      engineers. Even if the process requires development of an XML-to-HTML transform for the
+      content, that transform tends to be easier to implement than an XML-to-XSL-FO transform.</p>
+    <p class="p">Basically, a CSS-based pagination process has the effect of breaking the data processing and
+      implementation definition problem into several smaller parts, each one of which is easier to
+      create and manage than a single XML-to-XSL-FO process would be, while also making it easier to
+      apply the right skills to each component of the process.</p>
+  </div>
+</article></article><article class="topic division nested0" aria-labelledby="ariaid-title3" id="css-basics">
+    <h1 class="title topictitle1" id="ariaid-title3">CSS Basics</h1>
+  
+    <div class="body"><p class="shortdesc">A brief introduction to the basics of CSS.</p>
+        <p class="p">There is no shortage of good introductory material on CSS available. This topic is not
+      intended to replace those resources. Rather, it's mostly just to provide a level set on basic
+      CSS concepts and terminology.</p>
+    <p class="p">A CSS style sheet consists of a set of <dfn class="term">rules</dfn>.</p>
+    <p class="p">There are two types of rules: <dfn class="term">rule sets</dfn> and <dfn class="term">at-rules</dfn>.</p>
+    <div class="p"><dfn class="term">Rule sets</dfn> are rules that start with a <dfn class="term">selector</dfn> and then a
+      declaration <dfn class="term">block</dfn> containing zero or more <dfn class="term">properties</dfn> to be applied
+      to the elements that match the
+      selector:<pre class="pre codeblock"><code>p.note {
+  margin-left: 1pc;
+  border: 1pt solid black;
+  padding: 4pt;
+}</code></pre></div>
+    <p class="p">A <dfn class="term">block</dfn> starts with a left curly brace ('{') and ends with the matching right
+      curly brace ('}').</p>
+    <p class="p">Here <code class="keyword markupname xmlelement">&lt;p.note&gt;</code> is the <dfn class="term">selector</dfn>, in this case selecting
+        <code class="keyword markupname xmlelement">&lt;p&gt;</code> elements with a <code class="keyword markupname xmlatt">@class</code> value that includes the
+      keyword "note" (e.g., <code class="ph codeph">&lt;p class="note"&gt;&lt;/p&gt;</code>). The <dfn class="term">block</dfn>
+      includes three properties, <span class="keyword">margin-left</span>, <span class="keyword">border</span>, and
+        <span class="keyword">padding</span>.</p>
+    <div class="p"><dfn class="term">At-rules</dfn> are rules that start with
+        <code class="ph codeph">@<var class="keyword varname">identifier</var></code> and continue up to the next semicolon or
+        <dfn class="term">block</dfn>, whichever comes
+      first:<pre class="pre codeblock"><code>@import "page-masters.css" print;
+
+@page :first {
+  counter-reset: page;
+}</code></pre></div>
+    <p class="p">Here the <span class="keyword">@import</span> at-rule imports a style sheet named "page-masters.css"
+      when the media query includes "print" and the <span class="keyword">@page</span> rule applies to first
+      pages and resets the counter named "page".</p>
+    <div class="p">CSS comments start with "/*" and end with
+      "*/":<pre class="pre codeblock"><code>/* This is a comment 
+   Second line of comment
+ */</code></pre></div>
+    <p class="p">CSS does not have single-line comments.</p>
+    <p class="p">CSS style rules <dfn class="term">cascade</dfn> based on <dfn class="term">precedence</dfn> such that all the rules
+      that match a given element are combined together to determine the final effective set of
+      properties. Cascading rules are somewhat complex but in general the last declaration in the
+      style sheet wins, which means that you should put more-specific style rules after
+      less-specific style rules.</p>
+    <div class="note note note_note"><span class="note__title">Note:</span> Rather than try to understand and internalize all the rules for style rule precedence and
+      inheritance, I depend on browser's web development tools to show me what actually happened.
+      For example, in Chrome you can inspect an element and see exactly which rules contributed
+      which values to the final property set.</div>
+    <div class="p">You can organize CSS style sheets into separate modules that can be imported using
+        <span class="keyword">@import</span> at-rules at the top of the style sheet. You can use a
+      comma-separated list of media types on the <span class="keyword">@import</span> rule to limit the
+      imports to specific media, e.g.
+      "print":<pre class="pre codeblock"><code>@import "page-masters.css" <strong class="ph b">print</strong>;
+@import "pagination-rules.css" <strong class="ph b">print</strong>;
+@import "common.css";</code></pre></div>
+    <div class="p">The URI of the style sheet to be imported can be specified as a quoted string or using the
+        <span class="keyword">url()</span>
+      function:<pre class="pre codeblock"><code>@import <strong class="ph b">url("page-masters.css")</strong> print;</code></pre></div>
+    <p class="p">All <span class="keyword">@import</span> rules must occur before any other rules in the style
+      sheet.</p>
+    <div class="p">Property values are one of the following types:<ul class="ul" id="css-basics__ul_eb1_gzh_vcb">
+        <li class="li">Literal strings delimited with single or double
+          quotes:<pre class="pre codeblock"><code>content: "Literal value" 'Another literal value';</code></pre></li>
+        <li class="li">Keywords as defined for the property:<pre class="pre codeblock"><code>display: block;</code></pre></li>
+        <li class="li">Lengths (measurement values), which require a unit
+          indicator:<pre class="pre codeblock"><code>margin-top: 1in;    /* Inches */
+margin-left: 6pc;   /* Picas (12 points) */
+margin-right: 10mm; /* Millimeters */
+font-size: 12pt;    /* Points (1/72 inch) */
+line-height: 1.2em; /* "Em" (current font size) */
+width: 80vw;        /* Percentage of viewport width */
+height: 200px;      /* Pixels */</code></pre></li>
+        <li class="li">Percentages, a number followed by
+          "%":<pre class="pre codeblock"><code>line-height: 120%; /* 120 percent of inherited font size */</code></pre></li>
+        <li class="li">URIs, denoted by the <span class="keyword">url()</span>
+          function:<pre class="pre codeblock"><code>background-image: url("images/background-01.png");</code></pre></li>
+        <li class="li">Counters, referenced by name from counter-related
+          properties:<pre class="pre codeblock"><code>counter-increment: chapter-number;</code></pre>Where "chapter-number"
+          is the name of a counter.</li>
+        <li class="li">Colors specified as either a color name, an RGB numeric value, or an
+            <span class="keyword">rgb()</span>
+          function:<pre class="pre codeblock"><code>color: red;
+background-color: #C0C0C0; /* Grey */
+border-top-color: rgb(0, 255, 255); /* Cyan */
+border-bottom-color: rgb(0%, 50%, 0%); /* Dark green */</code></pre></li>
+      </ul></div>
+    <p class="p">Unsupported values should be ignored per the CSS specification.</p>
+    <p class="p">Most properties allow the keyword <span class="keyword">inherit</span> as a value to indicate that the
+      value should be whatever is inherited from an ancestor. I have not explicitly indicated where
+        <span class="keyword">inherit</span> is allowed in the discussion of properties below.</p>
+    <p class="p">In CSS the edges of blocks are labeled "top", "bottom", "left", and "right". These
+      designations are independent of the writing direction of the content.</p>
+    <div class="bodydiv fo-mapping">
+      <p class="p">XSL-FO uses the terms "before", "after", "start" and "end", as well as "inside" and
+        "outside", to label the edges of blocks in a writing-direction-independent way. "before" and
+        "after" correspond to "top" and "bottom", "before" and "after" correspond to "left" and
+        "right". There is no defined concept of "inside" or "outside" in CSS pagination.</p>
+    </div>
+    </div>
+  <article class="topic division nested1" aria-labelledby="ariaid-title4" id="topic_srg_wg3_vcb">
+    <h2 class="title topictitle2" id="ariaid-title4">The <span class="keyword">display:</span> Property: Blocks, Inlines, and Tables</h2>
+    <div class="body">
+      <p class="p">CSS organizes the content to be displayed into systems of nested boxes or
+          <dfn class="term">blocks</dfn>. A given element is basically either a block, an inline, part of a
+        table, or hidden.</p>
+      <div class="p">You use the <span class="keyword">display:</span> property to indicate how an element is to be
+        treated for display
+        purposes:<pre class="pre codeblock"><code>p {
+  display: block;
+}
+
+span {
+  display: inline;
+}</code></pre></div>
+      <div class="bodydiv fo-mapping">The CSS <span class="keyword">display:</span> values "block" and
+        "inline" correspond to the FO elements <code class="keyword markupname xmlelement">&lt;fo:block&gt;</code> and
+          <code class="keyword markupname xmlelement">&lt;fo:inline&gt;</code>.</div>
+      <div class="p">The value "none" for <span class="keyword">display:</span> hides the element, potentially treating it
+        as though it had never
+        occurred:<pre class="pre codeblock"><code>div.draft-comment {
+  display: none;
+}</code></pre></div>
+      <p class="p">Note that sometimes you want things to be hidden rather than completely thrown away, in
+        which case you may need to do things like make the font size very small (e.g., "0.1pt") or
+        use a color of "white" to hide it. You may need to check how your CSS engine treats "none"
+        display elements.</p>
+      <p class="p">You can use a <span class="keyword">display:</span> value of "table" or one of the other
+        table-component keywords to map non-table elements to a tabular presentation. Depending on
+        your source markup, you may need to generate extra elements to serve as table rows or table
+        cells. Note that you can use :before and :after pseudo elements as cells (but usually not
+        rows).</p>
+    </div>
+  </article>
+  <article class="topic division nested1" aria-labelledby="ariaid-title5" id="topic_ucl_p33_vcb">
+    <h2 class="title topictitle2" id="ariaid-title5">Box Properties: Borders, Margins, and Padding</h2>
+    <div class="body">
+      <div class="p">CSS boxes have three properties that determine the effective content area of the box:<ul class="ul" id="topic_ucl_p33_vcb__ul_zjb_s33_vcb">
+          <li class="li">Margin: Space from the outside edge of the box to any border or padding.</li>
+          <li class="li">Border: Occurs between the margin and padding.</li>
+          <li class="li">Padding: Occurs between the border and the content rectangle.</li>
+        </ul></div>
+      <p class="p">The margin, border, and padding can be different for each of the four sides of a box.</p>
+      <figure class="fig fignone" id="topic_ucl_p33_vcb__fig-box-dimensions"><figcaption><span class="fig--title-label">Figure 1. </span>Box dimensions</figcaption>
+        
+          <br><img class="image" id="topic_ucl_p33_vcb__image_fpg_tj3_vcb" src="media/boxdim.png"><br>
+        <p class="p">From <cite class="cite"><strong class="ph b">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1)
+            Specification</strong></cite></p>
+      </figure>
+      <p class="p">The sum of the margin, border, and padding for two parallel sides is subtracted from the
+        total width of the box to determine the width or height of the box's content area.</p>
+      <p class="p">For example, on an 8.5x11 inch page, if you specify a left margin of 1in and right margin
+        of 1.5in, then the width of the page's content area is 8.5 - (1+1.5) or 6in.</p>
+      <p class="p">More generally, margins create vertical space between blocks or create indention for
+        blocks, padding separates the border from the content, and borders are borders.</p>
+      <p class="p">Boxes can nest, so the edge of the content area for an outer box becomes the start of the
+        outside of the margin area for an inner box, as shown here:</p>
+      <figure class="fig fignone" id="topic_ucl_p33_vcb__fig_ihx_wm3_vcb"><figcaption><span class="fig--title-label">Figure 2. </span>Nested boxes showing margins and padding</figcaption>
+        
+        <br><img class="image" id="topic_ucl_p33_vcb__image_ejk_dn3_vcb" src="media/boxes-margin-padding-01.png" width="384"><br>
+        <div class="p">The source markup for this sample
+          is:<pre class="pre codeblock"><code>&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;title&gt;Page Margin Boxes&lt;/title&gt;
+    &lt;link rel="stylesheet" type="text/css" href="boxes-margin-padding.css" /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;section&gt;
+      &lt;h1&gt;Page Margin Boxes&lt;/h1&gt;
+      &lt;p&gt;The base definition for &amp;lt;section&amp;gt; is:
+        &lt;code&gt;
+border: solid 1pt black;
+margin-left: 2pc;
+padding: 1pc;          
+        &lt;/code&gt;
+      &lt;/p&gt;
+      &lt;section&gt;
+        &lt;header&gt;
+          &lt;h2&gt;Outer section&lt;/h2&gt;
+        &lt;/header&gt;
+        &lt;section&gt;
+          &lt;header&gt;
+            &lt;h3&gt;Inner section&lt;/h3&gt;
+          &lt;/header&gt;
+          &lt;p&gt;Paragraph in the section. &lt;/p&gt;
+          &lt;p&gt;Paragraph in the section. &lt;/p&gt;
+        &lt;/section&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+      </figure>
+    </div>
+  </article>
+  <article class="topic division nested1" aria-labelledby="ariaid-title6" id="topic_plg_tg3_vcb">
+    <h2 class="title topictitle2" id="ariaid-title6">Essential CSS Properties</h2>
+    <div class="body">
+      <p class="p">The essential properties used to style content for print include:</p>
+      <dl class="dl">
+        
+          <dt class="dt dlterm">display</dt>
+          <dd class="dd">Specifies how the element will display, one of:<dl class="dl">
+              
+                <dt class="dt dlterm">inline</dt>
+                <dd class="dd">The element generates <dfn class="term">inline boxes</dfn>.</dd>
+              
+              
+                <dt class="dt dlterm">block</dt>
+                <dd class="dd">The element generates a <dfn class="term">box</dfn>. </dd>
+              
+              
+                <dt class="dt dlterm">inline-block</dt>
+                <dd class="dd">A block that acts as an <dfn class="term">inline box</dfn> for purposes of placement in the
+                  flow but acts as a <dfn class="term">box</dfn> for the purposes of rendering its content.
+                  Inline blocks are useful for certain special effects.</dd>
+              
+              
+                <dt class="dt dlterm">list-item</dt>
+                <dd class="dd">The element is rendered with a principal block box and a marker box as for HTML
+                  list elements.</dd>
+              
+              
+                <dt class="dt dlterm">table</dt>
+                <dd class="dd">The <span class="keyword">table</span> and other table-related values allow you to apply
+                  table formatting to arbitrary elements as long as the element structure provides a
+                  way to express table rows and cells.</dd>
+              
+              
+                <dt class="dt dlterm">none</dt>
+                <dd class="dd">The element is not displayed and has no effect on any surrounding elements.
+                  Compare with <span class="keyword">visibility:</span> of "hidden".</dd>
+              
+            </dl><p class="p">When developing CSS style sheets for browser-based display you can depend on the
+              built-in UI style sheet to provide appropriate default <span class="keyword">display:</span>
+              values for most elements. However, when setting up print-specific style sheets you
+              often either don't have a built-in base style sheet or you need to override it in
+              order to be able to better control the formatting details of content. Thus you may
+              need to specify <span class="keyword">display:</span> more precisely than you would for
+              browser-based styles.</p><p class="p">It is also easy to forget to set
+                <span class="keyword">display:</span> to "block" and wonder why your block-specific properties
+              like margins and indents are not being applied.</p></dd>
+        
+        
+          <dt class="dt dlterm">font-family</dt>
+          <dd class="dd">Specifies the font to use for a given element. The value is a sequence of one or more
+            font names or generic font family
+              names:<pre class="pre codeblock"><code>body {
+  font-family: "Verdana", sans-serif;
+}</code></pre><div class="p">The
+              generic font family names are:<ul class="ul" id="topic_plg_tg3_vcb__ul_is4_2c3_vcb">
+                <li class="li"><span class="keyword">serif</span>: Specifies a serif font, e.g., Times Roman.</li>
+                <li class="li"><span class="keyword">sans-serif</span>: Specifies a sans-serif font, e.g., Helvetica or
+                  Arial.</li>
+                <li class="li"><span class="keyword">monospace</span>: Specifies a font where all the characters have the
+                  same width, e.g., Courier.</li>
+                <li class="li"><span class="keyword">cursive</span>: A cursive font, e.g. Zapf-Chancery.</li>
+                <li class="li"><span class="keyword">fantasy</span>: Display fonts, e.g., Western.</li>
+              </ul></div><p class="p">Font family names should always be quoted. Generic font family names are
+              never quoted.</p><p class="p">Font are evaluated from left to right in the list and the first
+              font found is used. The details of how font names used on the
+                <span class="keyword">font-family:</span> property are matched to actual fonts is a function
+              of how your CSS pagination engine is configured. For example, Antenna House Formatter
+              uses a font mapping configuration to map font names as used on the
+                <span class="keyword">font-family:</span> property to actual font files. The configuration
+              details may differ based operating system as well.</p><p class="p">Font configuration and
+              management is always a challenge. Be prepared to spend more time than you wanted to or
+              expected to getting your fonts set up, especially for non-Western languages or for
+              highly-designed publications where font details are both varied and
+              important.</p><p class="p">One potential aid to font madness is the open-source Noto fonts from
+              Google. The Noto ("not tofu") fonts are a set of Unicode fonts that provide coverage
+              for pretty much all modern scripts with high-quality and locale-appropriate glyphs,
+              including Asian scripts, South-Asian scripts, Arabic, and Hebrew. By providing a
+              single set of open-source fonts, the Noto font make it easy to produce publishable
+              results for pretty much any language without having to invest in licensed
+            fonts.</p></dd>
+        
+        
+          <dt class="dt dlterm">font-style</dt>
+          <dd class="dd">Specifies the style of the font: <span class="keyword">normal</span>, <span class="keyword">italic</span>,
+            or
+            <span class="keyword">oblique</span>:<pre class="pre codeblock"><code>span.varname {
+  font-style: italic;
+}</code></pre></dd>
+        
+        
+          <dt class="dt dlterm">font-weight:</dt>
+          <dd class="dd">The weight of the font: One of <span class="keyword">normal</span>, <span class="keyword">bold</span>,
+              <span class="keyword">bolder</span>, <span class="keyword">lighter</span>, <span class="keyword">100</span>,
+              <span class="keyword">200</span>, <span class="keyword">300</span>, <span class="keyword">400</span>,
+              <span class="keyword">500</span> | <span class="keyword">600</span>, <span class="keyword">700</span>,
+              <span class="keyword">800</span>, or
+              <span class="keyword">900</span>.<pre class="pre codeblock"><code>emph {
+  font-weight: bold;
+}</code></pre><p class="p">The
+              value <span class="keyword">400</span> is equivalent to <span class="keyword">normal</span>, higher
+              numbers are more bold, lower numbers are less bold. The value <span class="keyword">bold</span>
+              is equivalent to <span class="keyword">700</span>.</p><p class="p">Note that how
+                <span class="keyword">font-weight:</span> values get mapped to specific fonts is a function of
+              how your CSS pagination engine does font mapping. For example, Antenna House Formatter
+              provides a way to indicate, for each font, how specific font weight, style, and
+              variant values map to specific fonts.</p><p class="p">For best typographic results you will
+              usually have separate fonts for each combination of style, weight, and variant, such
+              as a bold version of a font and a bold-italic version of a font.</p></dd>
+        
+        
+          <dt class="dt dlterm">font-stretch</dt>
+          <dd class="dd">Specifies the degree of compression or expansion for the font. Values are
+              <span class="keyword">normal</span>, <span class="keyword">ultra-condensed</span>,
+              <span class="keyword">extra-condensed</span>, <span class="keyword">condensed</span>,
+              <span class="keyword">semi-condensed</span>, <span class="keyword">semi-expanded</span>,
+              <span class="keyword">expanded</span>, <span class="keyword">extra-expanded</span>,
+              <span class="keyword">ultra-expanded</span>. For best typographic effect these values should
+            correspond to actual fonts rather than allowing the CSS processor to simulate the
+            compression or expansion.</dd>
+        
+        
+          <dt class="dt dlterm">font-variant</dt>
+          <dd class="dd">Specifies the variant of the font, currently limited to <span class="keyword">small-caps</span>
+            or
+              <span class="keyword">normal</span>.<pre class="pre codeblock"><code>span.apiname {
+  font-variant: small-caps;
+}</code></pre><p class="p">Note
+              that for best results you should use a specific small-caps font rather than letting
+              the CSS engine simulate small caps.</p></dd>
+        
+        
+          <dt class="dt dlterm">font-size</dt>
+          <dd class="dd">Specifies the size of the font, as an absolute size keyword, a relative size keyword,
+            a measurement, e.g. "12pt", or a relative size, either using "em" units or a
+            percentage.</dd>
+          <dd class="dd ddexpand">For print-focused typography you are usually going to want to specify font sizes using
+            measurements, usually points, rather than using relative keywords or percentages.</dd>
+          <dd class="dd ddexpand">For best typographic results the font sizes you specify should match the actual font
+            sizes provided for the fonts you're using, although for most purposes is probably
+            doesn't matter.</dd>
+        
+        
+          <dt class="dt dlterm">margin-left</dt>
+          <dd class="dd">For blocks, the left margin defines the indention for the entire block. Assuming that
+            you do not want to draw a left-side border that aligns with the outer edge of the
+            containing block, <span class="keyword">margin-left:</span> is the appropriate property to use. If
+            you want to draw a border on the outer edge of the block and still have an indention,
+            use <span class="keyword">padding:</span> instead of <span class="keyword">margin-left:</span>.</dd>
+        
+        
+          <dt class="dt dlterm">text-indent</dt>
+          <dd class="dd">Specifies the left-edge indention of the first line of a block. For example, to define
+            paragraphs with a 1 pica first-line indent, you would
+            specify:<pre class="pre codeblock"><code>p {
+  display: block;
+  text-indent: 1pc;
+}</code></pre></dd>
+        
+        
+          <dt class="dt dlterm">margin-top</dt>
+          <dt class="dt dlterm">margin-bottom</dt>
+          <dd class="dd">The <span class="keyword">margin-top:</span> and <span class="keyword">margin-bottom:</span> properties
+            specify the space above and below a block, respectively.<p class="p">Note that in most
+              circumstances, the vertical borders of adjoining blocks <dfn class="term">collapse</dfn>, with
+              the resulting margin being the larger of the two collapsed margins. For example, if a
+              paragraph is defined to have a bottom margin of 2em and the following block has a top
+              margin of 3em, there would be a total of 3em of space from the bottom of the
+              paragraph's content area to the top of the following block's content area. You can
+              change this behavior but normally this is the behavior you want.</p></dd>
+        
+        
+          <dt class="dt dlterm">padding</dt>
+          <dd class="dd">The space between any border and the content area of a block. Use
+              <span class="keyword">padding:</span> to create space between a border and content inside the
+            box:<pre class="pre codeblock"><code>p.boxed {
+  border: solid 0.5pt black;
+  <strong class="ph b">padding: 4pt;</strong>
+}</code></pre></dd>
+        
+        
+          <dt class="dt dlterm">text-align</dt>
+          <dd class="dd">Within a block, specifies how the text is aligned relative to the left and right edges
+            of the content area. Values are <span class="keyword">left</span>, <span class="keyword">center</span>,
+              <span class="keyword">right</span>, and <span class="keyword">justify</span>.</dd>
+        
+        
+          <dt class="dt dlterm">text-align-last</dt>
+          <dd class="dd">Specifies the alignment for the last or only line in a block, or a line before a
+            forced line break. <div class="p">Particularly useful for lines with leaders to force the line to
+              extend to the right (end) edge of the block, such as in tables of contents. To achieve
+              this effect, specify a value of
+              "justify":<pre class="pre codeblock"><code>div.tocentry {
+  text-align: left;
+  <strong class="ph b">text-align-last: justify;</strong>
+}
+
+div.tocentry &gt; span.pageref:before {
+  content: leader(dotted);
+}</code></pre></div><div class="p">Where
+              the markup for the table of contents entry
+              is:<pre class="pre codeblock"><code>&lt;div&gt;
+  &lt;span class="title"&gt;Chapter 1&lt;/span&gt;
+  &lt;span class="pageref"&gt;&lt;a href="#chapter-01"/&gt;&lt;/span&gt;
+&lt;/div&gt;</code></pre></div><div class="p">The
+              value "justify" for <span class="keyword">text-align-last:</span> causes the line (or last line)
+              of the tocentry paragraph to be justified to the right (end) edge of the block. The
+              leader created as the <span class="keyword">:before</span> psuedo-element for the pageref span
+              takes as much space as possible, so it will extend from the title text to the start of
+              the page reference:<figure class="fig fignone" id="topic_plg_tg3_vcb__fig_swc_y3l_vcb"><figcaption><span class="fig--title-label">Figure 3. </span>Effect of <span class="keyword">text-align-last:</span> of "justify" with
+                  leaders</figcaption>
+                
+                <br><img class="image" id="topic_plg_tg3_vcb__image_cnz_fjl_vcb" src="media/text-align-last-01.png" width="384"><br>
+              </figure></div><p class="p fo-mapping">Leaders in CSS are always as long as possible,
+              while in XSL-FO you can specify an exact length for leaders. To create a leader with a
+              specific length, enclose it in an inline block or block with a fixed width.</p></dd>
+        
+        
+          <dt class="dt dlterm">color</dt>
+          <dd class="dd">Specifies the foreground color of the content.</dd>
+        
+        
+          <dt class="dt dlterm">background-color</dt>
+          <dd class="dd">Specifies the background color of the element's box.</dd>
+        
+        
+          <dt class="dt dlterm">text-decoration</dt>
+          <dd class="dd">Specifies the decoration to apply to inline blocks: <span class="keyword">none</span>,
+              <span class="keyword">underline</span>, <span class="keyword">overline</span>,
+              <span class="keyword">line-through</span>, <span class="keyword">blink</span>.</dd>
+        
+        
+          <dt class="dt dlterm">text-transform</dt>
+          <dd class="dd">Transforms the case of the element: <span class="keyword">capitalize</span>,
+              <span class="keyword">uppercase</span>, <span class="keyword">lowercase</span>, or
+            <span class="keyword">none</span>.</dd>
+        
+        
+          <dt class="dt dlterm">letter-spacing</dt>
+          <dd class="dd">Defines the additional spacing to add between letters within words.</dd>
+        
+        
+          <dt class="dt dlterm">word-spacing</dt>
+          <dd class="dd">Defines the additional spacing to add between words. Word spacing is also affected by
+            justification.</dd>
+        
+        
+          <dt class="dt dlterm">content</dt>
+          <dd class="dd">Specifies the effective content of the element. The value can be any combination of
+            literal text, string variable references, counter references or a single reference to an
+            element variable (saved using a <span class="keyword">position:</span> value of
+              <span class="keyword">running()</span>).<div class="p">Most often used to generate text before or after an
+              element using the <span class="keyword">:before</span> and <span class="keyword">:after</span> pseudo
+              elements:<pre class="pre codeblock"><code>div.note {
+  counter-increment: noteCtr;
+  display: block;
+}
+
+div.note:before {
+  display: inline-block;
+  content: "Note" counter(noteCtr);
+  font-weight: bold;
+  margin-right: 4pt;
+}</code></pre></div></dd>
+        
+        
+          <dt class="dt dlterm">direction</dt>
+          <dd class="dd">Specifies the writing direction of the element's content, <span class="keyword">ltr</span> for
+            left-to-right, <span class="keyword">rtl</span> for right-to-left. For right-to-left content you
+            may need to also specify the <span class="keyword">unicode-bidi:</span> property to completely
+            control the correct ordering of text, especially when there is a mix of right-to-left
+            and left-to-right content in the same element.</dd>
+        
+        
+          <dt class="dt dlterm">writing-mode</dt>
+          <dd class="dd">CSS 3 Candidate Recommendation,<cite class="cite">CSS Writing Modes Level 3</cite>, provides the
+              <span class="keyword">writing-mode:</span> property, which lets you specify horizontal and
+            vertical writing modes, as used in Asian writing systems.</dd>
+        
+        
+          <dt class="dt dlterm">float</dt>
+          <dd class="dd">Turns the element into a floated element. See <a class="xref" href="#floats">Floats</a> for
+            details.</dd>
+        
+        
+          <dt class="dt dlterm">line-height</dt>
+          <dd class="dd">Specifies the minimum height of line boxes within the element. Value is a measurement.
+            Normal practice is to specify a percentage of the current font size using a bare number,
+            which is a multiplier on the font size (e.g., 1.2), a percentage value (e.g., 120%), or
+            a fractional em value (e.g., 1.2em). Note that the precise position of the baseline
+            within the line box is determined by font metrics.</dd>
+        
+        
+          <dt class="dt dlterm">vertical-align</dt>
+          <dd class="dd">Controls the vertical alignment of an inline box relative to its containing block.
+            Used primarily to produce superscripts and subscripts.</dd>
+        
+        
+          <dt class="dt dlterm">orphans</dt>
+          <dd class="dd">Specifies the minimum number of lines to leave at the bottom of a page. The default is
+            2 but a more typical value for print is 3.</dd>
+        
+        
+          <dt class="dt dlterm">widows</dt>
+          <dd class="dd">Specifies the minimum number of lines to leave at the top of a page. The default is 2
+            but a more typical value is 3.</dd>
+        
+        
+          <dt class="dt dlterm">white-space</dt>
+          <dd class="dd">Controls how white space is handled in the element. Values are:<dl class="dl">
+              
+                <dt class="dt dlterm">pre</dt>
+                <dd class="dd">All white space characters are preserved, as for the HTML
+                    <code class="keyword markupname xmlelement">&lt;pre&gt;</code> element.</dd>
+              
+              
+                <dt class="dt dlterm">nowrap</dt>
+                <dd class="dd">White space is collapsed as in normal text, but lines are not wrapped.</dd>
+              
+              
+                <dt class="dt dlterm">pre-wrap</dt>
+                <dd class="dd">White space is preserved but lines can be broken as needed.</dd>
+              
+              
+                <dt class="dt dlterm">pre-line</dt>
+                <dd class="dd">White space is collapsed and lines can be broken at newlines or as needed to
+                  fill lines.</dd>
+              
+            </dl></dd>
+        
+        
+          <dt class="dt dlterm">break-before</dt>
+          <dt class="dt dlterm">break-after</dt>
+          <dd class="dd">For blocks, specifies the breaks that are allowed or required before, after, or within
+            the block.<div class="note note note_note"><span class="note__title">Note:</span> The <span class="keyword">break-before:</span> and <span class="keyword">break-after:</span>
+              properties replace the original <span class="keyword">page-break-before:</span> and
+                <span class="keyword">page-break-after:</span> properties from CSS 2.1 and are no longer
+              specific just to page breaks. These properties are defined in <cite class="cite">CSS Fragmentation
+                Module Level 3</cite>.</div><div class="p">Values are:<dl class="dl">
+                
+                  <dt class="dt dlterm">avoid</dt>
+                  <dd class="dd">Avoid breaking if possible. Note that this does not prevent page breaks
+                    entirely. CSS does not provide an absolute keep-together property as in XSL-FO.
+                    This can make it hard to control page breaks in some circumstances.<p class="p">Antenna
+                      House Formatter provides an extension property,
+                        <span class="keyword">-ah-keep-together-within-dimension:</span>, that provides pretty
+                      good keep control when used with <span class="keyword">break-inside:</span>
+                    avoid.</p></dd>
+                
+                
+                  <dt class="dt dlterm">avoid-page</dt>
+                  <dd class="dd">Avoid page breaks but allow column breaks.</dd>
+                
+                
+                  <dt class="dt dlterm">avoid-column</dt>
+                  <dd class="dd">Avoid column breaks when in a multi-column context. </dd>
+                
+                
+                  <dt class="dt dlterm">always</dt>
+                  <dd class="dd">Generate a left or right page break before or after the element.</dd>
+                
+                
+                  <dt class="dt dlterm">page</dt>
+                  <dd class="dd">Generate page break before or after the block.</dd>
+                
+                
+                  <dt class="dt dlterm">left</dt>
+                  <dd class="dd">Generate a page break to a new left-hand page.</dd>
+                
+                
+                  <dt class="dt dlterm">right</dt>
+                  <dd class="dd">Generate a page break to a new right-hand page.</dd>
+                
+              </dl></div></dd>
+        
+        
+          <dt class="dt dlterm">break-inside</dt>
+          <dd class="dd">For blocks, specifies the breaks that are allowed within the block. Values are
+              <span class="keyword">avoid</span>, <span class="keyword">avoid-page</span>, and
+              <span class="keyword">avoid-column</span>, as for <span class="keyword">break-before:</span> and
+              <span class="keyword">break-after:</span>.</dd>
+        
+        
+          <dt class="dt dlterm">column-count</dt>
+          <dd class="dd">Specifies the number of columns within the element. Multi-column properties are
+            defined in <cite class="cite">CSS Multi-column Layout Module Level 1</cite>. A value greater than 1
+            defines a multi-column environment. If <span class="keyword">column-width:</span> is
+              <span class="keyword">auto</span> this defines the number of columns. If
+              <span class="keyword">column-width:</span> is specified then this defines the maximum number of
+            columns.</dd>
+        
+        
+          <dt class="dt dlterm">column-width</dt>
+          <dd class="dd">Specifies the desired width of the columns. Does not guarantee that the columns will
+            be this wide. For print, usually makes more sense to just specify the column count
+            within a block of known width.</dd>
+        
+        
+          <dt class="dt dlterm">column-gap</dt>
+          <dd class="dd">Specifies the gap between columns. The default value is processor dependent.</dd>
+        
+        
+          <dt class="dt dlterm">column-rule</dt>
+          <dd class="dd">Specifies the width, color, and style of the column rule. By default there is no
+            column rule.</dd>
+        
+        
+          <dt class="dt dlterm">column-span</dt>
+          <dd class="dd">Allows an element to span across all the columns of a multi-column display. Values are
+            "all" or "none".</dd>
+        
+        
+          <dt class="dt dlterm">column-fill</dt>
+          <dd class="dd">Specifies how to fill columns. Values are "auto" (no balancing), "balance" (balance on
+            last page), and "balance-all" (balance across all pages).<p class="p fo-mapping">In
+              XSL-FO you force column balancing by putting a column-spanning block at the end of the
+              multi-column region. XSL-FO does not provide an option to balance columns across
+              multiple pages.</p></dd>
+        
+        
+          <dt class="dt dlterm">page</dt>
+          <dd class="dd">Species the page masters to use for the element. The value is a sequence of one or
+            more <span class="keyword">@page</span> rule identifiers.<p class="p">Note that you cannot usefully specify
+                <span class="keyword">page:</span> on empty elements in order to start a new page sequence.
+              Rather you must use <span class="keyword">page:</span> on containing elements, e.g.,
+                <code class="keyword markupname xmlelement">&lt;section&gt;</code> or <code class="keyword markupname xmlelement">&lt;div&gt;</code> elements.</p></dd>
+        
+      </dl>
+    </div>
+  </article>
+  <article class="topic division nested1" aria-labelledby="ariaid-title7" id="floats">
+    <h2 class="title topictitle2" id="ariaid-title7">Floats</h2>
+    <div class="body">
+      <p class="p">TBD: Describe how to manage floats.</p>
+    </div>
+  </article>
+</article><article class="topic division nested0" aria-labelledby="ariaid-title8" id="understanding-page-rules">
+  <h1 class="title topictitle1" id="ariaid-title8">Creating Page Masters and Page Master Sequences</h1>
+  
+  <div class="body"><p class="shortdesc">You use <span class="keyword">@page</span> rules to define page masters.</p>
+    <p class="p">In order to generate pages from your content you must define what those pages look like:
+      their height and width, where the headers and footers go, the details of footnote placement,
+      and so on. These definitions are usually referred to as "page masters".</p>
+    <div class="p">In CSS page masters are defined using <dfn class="term">page rules</dfn>:<a name="fnsrc_1" href="#fntarg_1"><sup>1</sup></a><pre class="pre codeblock"><code>@page {
+  size: A4 portrait; 
+  counter-increment: page;
+  margin-top: 6pc;
+  margin-bottom: 6pc;
+  margin-left: 8pc;
+  margin-right: 7pc;
+  
+  @bottom-center {
+      content: counter(page);
+      text-align: center;
+  }
+}</code></pre></div>
+    <p class="p">This page rule defines an A4 page with the page number displayed at the center of the bottom
+      of the page.</p>
+    <p class="p">A CSS page has a <dfn class="term">body region</dfn>, which is where flowed content goes, and zero or
+      more <dfn class="term">page margin boxes</dfn>. The size of the body region is determined by specifying
+      margins for the page.</p>
+    <p class="p">You can specify the size of the page, either using a pre-defined page size keyword, as shown
+      here, using explicit measurements for the height and width. When you use a page size keyword
+      you can specify <span class="keyword">portrait</span> or <span class="keyword">landscape</span> to indicate the
+      page orientation.</p>
+    <p class="p">A page can have a background image as for any block in CSS.</p>
+    <p class="p">A page can have a footnote area with borders. Footnote areas are only generated if a page has
+      one or more footnotes on it.</p>
+    <p class="p">The above <span class="keyword">@page</span> rule defines a generic page. If this was the only
+        <span class="keyword">@page</span> rule in the style sheet it would be used for all pages.</p>
+    <p class="p">However, most publications need different page masters for different purposes: left and right
+      pages, first pages, last pages, pages for frontmatter, foldout pages, etc.</p>
+    <div class="bodydiv fo-mapping">
+      <p class="p">CSS @page rules correspond to FO simple-page-master.</p>
+    </div>
+  </div>
+  <article class="topic division nested1" aria-labelledby="ariaid-title9" id="topic_gcq_lpb_vcb">
+    <h2 class="title topictitle2" id="ariaid-title9">Defining Page Sequences</h2>
+    <div class="body">
+      <p class="p">In many publications you will need to define not just individual page masters but
+          <dfn class="term">page sequences</dfn>, sets of pages that are used together for specific
+        content.</p>
+      <p class="p">For publications that are intended to be printed on paper, you usually have different page
+        masters for left and right pages. You often also need to account for the first page of the
+        sequence (e.g., chapter openers), the last page of the sequence, and blank pages (for
+        example, to generate "This page intentionally left blank" on blank pages. In addition, first
+        pages usually have different running heads or feet from non-first pages. </p>
+      <div class="bodydiv fo-mapping">FO conditional page sequence masters become sequences of
+        page rule names coupled with @page rule selectors to get the same effect. CSS page sequence
+        controls are not as complete as FO's but should be sufficient for most use cases.</div>
+      <div class="p">A <span class="keyword">@page</span> rule can be applied to pages of specific types using one or more
+          <dfn class="term">page selectors</dfn>:<ul class="ul" id="topic_gcq_lpb_vcb__ul_ugw_fqb_vcb">
+          <li class="li">First page (<span class="keyword">:first</span>)</li>
+          <li class="li">Left page:(<span class="keyword">:left</span>)</li>
+          <li class="li">Right page (<span class="keyword">:right</span>)</li>
+          <li class="li">Blank page (<span class="keyword">:blank</span>)</li>
+          <li class="li">Last page (<span class="keyword">:last</span>, Antenna House Formatter extension)</li>
+        </ul></div>
+      <div class="p">You can specify one or more page selectors on a <span class="keyword">@page</span>
+        rule:<pre class="pre codeblock"><code>@page <strong class="ph b">:left :blank</strong> {
+  size: A4 portrait; 
+  counter-increment: page;
+
+  margin-top: 6pc;
+  margin-bottom: 6pc;
+  margin-left: 8pc;
+  margin-right: 7pc;
+  
+  @bottom-center {
+      content: none;
+  }
+}</code></pre></div>
+      <p class="p">For a typical page sequence you need to define a first page rule, a left page rule, and a
+        right page rule. If you have special handling for blank pages, you will need a blank page
+        rule.</p>
+      <p class="p">While there is some cascading of properties from <span class="keyword">@page</span> rule to
+          <span class="keyword">@page</span> rule, it's limited and somewhat difficult to predict or control.
+        Therefore, it's usually best to define each page master completely.</p>
+      <p class="p">The only exception is using an initial generic <span class="keyword">@page</span> rule to set the
+        defaults for all subsequent page rules.</p>
+      <div class="p">For example, if all or most of the pages will have the same size and orientation then it
+        makes sense to use an unqualified <span class="keyword">@page</span> rule to define those, allowing
+        you to simplify more specific <span class="keyword">@page</span>
+        rules:<pre class="pre codeblock"><code>/* Base page rule for most pages */
+@page {
+  size: A4 portrait; 
+  counter-increment: page;
+  margin-top: 6pc;
+  margin-bottom: 6pc;
+  
+  @bottom-center {
+      content: counter(page);
+      text-align: center;
+  }
+}
+
+/* Duplex pages with wider
+   binding-edge margins:
+ */
+@page left: {
+  margin-left: 5pc;
+  right-right: 8pc;
+}
+
+@page right: {
+  margin-left: 8pc;
+  right-right: 5pc;
+}</code></pre></div>
+      <p class="p">This set of <span class="keyword">@page</span> rules defines all pages to be A4 portrait pages with
+        the page number at the bottom. The left and right page rules create a wider binding (inside)
+        edge margin, typical for duplex (double sided) pages.</p>
+      <p class="p">For many documents you need not just different first or left and right pages, but different
+        pages for different parts of your publication.</p>
+      <p class="p">For example, your frontmatter pages may use roman numerals for the page number or your
+        index pages may have different margins.</p>
+      <div class="p">You create different related sets of page masters by using names on the
+          <span class="keyword">@page</span>
+        rules:<pre class="pre codeblock"><code>@page <strong class="ph b">frontmatter</strong> left: {
+  margin-left: 5pc;
+  right-right: 8pc;
+
+  @bottom-center {
+      content: counter(page, lower-roman);
+      text-align: center;
+  }
+
+}</code></pre></div>
+      <p class="p">Here "frontmatter" is the <span class="keyword">@page</span> rule identifier. </p>
+      <div class="p">You refer to <span class="keyword">@page</span> rule identifiers from <span class="keyword">page:</span>
+        properties in element-specific
+        rules:<pre class="pre codeblock"><code>section.front {
+  <strong class="ph b">page: frontmatter;</strong>
+}</code></pre></div>
+      <p class="p">This rule applies the page rules named "frontmatter" to section elements that have the
+        @class value "front".</p>
+      <p class="p">The CSS processor will automatically select the correct <span class="keyword">@page</span> rule based
+        on the type of page being generated—you don't have to specify anything in the
+          <span class="keyword">page:</span> rule itself.</p>
+      <p class="p">You can specify a list of page names on the <span class="keyword">page:</span> property in order to
+        define a page sequence.</p>
+      <div class="p">For example, you might need different first page masters for different kinds of sections
+        but all the following pages are the same. Because the first pages are different you need
+        different named rules for each one but you then need to use pages from a different set for
+        the remaining pages. In this example, the last <span class="keyword">@page</span> rule defines a page
+        just for the first page of the table of contents. The rule for <code class="ph codeph">&lt;section
+          class="toc"&gt;</code> then specifies a sequence page rule names: toc-first
+        portrait.<pre class="pre codeblock"><code>/* Base page rules for portrait pages */
+@page portrait {
+  size: A4 portrait; 
+  counter-increment: page;
+  margin-top: 6pc;
+  margin-bottom: 6pc;
+  
+  @bottom-center {
+      content: counter(page);
+      text-align: center;
+  }
+}
+
+/* Duplex pages with wider
+   binding-edge margins:
+ */
+@page portrait left: {
+  margin-left: 5pc;
+  right-right: 8pc;
+}
+
+@page portrait right: {
+  margin-left: 8pc;
+  right-right: 5pc;
+}
+
+/* Table of Contents first page
+   title starts lower and has
+   a narrower body area.
+ */
+<strong class="ph b">@page toc-first :first :right {</strong>
+    <strong class="ph b">margin-top: 3in;
+    margin-left: 10pc;
+    margin-right: 12pc;
+</strong><strong class="ph b">}</strong>
+
+section.toc {
+  <strong class="ph b">page: toc-first portrait;
+   break-before: right;
+</strong>}</code></pre></div>
+      <p class="p">Note that the "toc-first" page rule specifies both <span class="keyword">:first</span> and
+          <span class="keyword">:right</span>, ensuring that it will only be applied to the first page if it's
+        also a right-hand page.</p>
+      <p class="p">The properties for "toc" sections forces a bread to a right-hand page before the section,
+        ensuring that it will always start with a right-hand page.</p>
+    </div>
+  </article>
+  <article class="topic division nested1" aria-labelledby="ariaid-title10" id="topic_fws_skc_vcb">
+    <h2 class="title topictitle2" id="ariaid-title10">Creating Running Heads and Feet (and Other Marginalia)</h2>
+    <div class="body">
+      <p class="p">You create running heads and feet by defining page margin boxes and specifying what content
+        to put into them.</p>
+      <div class="bodydiv fo-mapping">CSS page margin boxes correspond to FO edge regions defined
+        in page masters and static content within page sequences. In FO you define the presence,
+        name, and extent of the margin regions in page masters, but specify the region content as
+        part of each page sequence. In CSS the boxes, including their content, are entirely defined
+        in the page master rule.</div>
+      <p class="p">CSS pages have a total of twelve possible margin boxes: one for each corner of the page and
+        three on each side:</p>
+      <figure class="fig fignone" id="topic_fws_skc_vcb__fig-page-margin-boxes"><figcaption><span class="fig--title-label">Figure 4. </span>Page margin boxes</figcaption>
+        
+        <br><img class="image" id="topic_fws_skc_vcb__image_c5q_1rc_vcb" height="384" src="media/page-margin-boxes-01.png" alt="Shows the twelve page margin boxes."><br>
+      </figure>
+      <div class="p">Each page margin box has a corresponding at-rule named for the
+        box:<pre class="pre codeblock"><code>@page {
+  size: A4;
+  counter-increment: page;
+
+  /* Chapter title */
+  @top-left {
+    content: string(chapterTitle);
+    font-size: 9pt;
+  }
+
+  /* Section Title */
+  @top-right {
+    content: string(sectionTitle, first);
+  }
+
+  @bottom-middle {
+    content: counter(page);
+  }
+}</code></pre></div>
+      <p class="p">The vertical extent of top and bottom boxes is determined by the page's top and bottom
+        margin, padding, and border. The horizontal extent of left and right boxes is likewise
+        determined by the page's left and right margin, border, and padding.</p>
+      <p class="p">The horizontal extent of top and bottom boxes and the vertical extent of left and right
+        boxes is determined dynamically by the processor and cannot be explicitly determined through
+        the CSS properties, although you might be able to do tricks with giving elements used by
+        reference in margin boxes fixed extents, depending on what your processor does.</p>
+      <p class="p">The margin box specification seems to indicate that processors should try to divide the
+        available space evenly among the margin boxes while trying to center the center and middle
+        boxes. There is no way, for example, to force the top-left box to be wide and the top middle
+        box to narrow. This can make it a challenge to precisely control the header and footer
+        layout. It's clear that the goal of the CSS design was to make specifying margin boxes easy
+        but it has the effect of not supporting some important use cases. Hopefully this is an area
+        of the spec that will be refined in the future.</p>
+      <p class="p">Note also that the size of the corner regions is determined by the extent of the top and
+        side margins at each corner.</p>
+      <div class="bodydiv fo-mapping">In XSL-FO you can control how the side regions interact with
+        each other at the corners. In particular, you can set up your pages so that the side regions
+        extend the full vertical extent of the page, which is usually what you want so that the top
+        and bottom regions are aligned with the extent of the body region. You cannot do this in
+        CSS, as the corners are separate boxes and there is no defined way to merge the corner
+        regions with the other regions to create a single page-spanning region.</div>
+      <div class="p">Page margin boxes are only created when the content property of the box is not "none". You
+        can "turn off" a margin box created by an inherited page master by defining the margin box
+        with an explicit <span class="keyword">content:</span> value of "none". For example, you might define
+        the running heads and feet in your base page rules and then override the running heads in
+        the first-page master to turn them
+        off:<pre class="pre codeblock"><code>@page first: {
+    
+  /* No running heads on chapter opener pages */
+  @top-left {
+    content: none;
+  }
+
+  @top-right {
+    content: none;
+  }
+
+}</code></pre></div>
+      <p class="p">Note that you do not have direct control over the width of top and bottom margin boxes or
+        the height of left and right margin boxes.</p>
+      <div class="p">You can construct the content of a margin box from literal text, string variables, saved
+        elements, and counter
+        references:<pre class="pre codeblock"><code>@page {
+   ...
+
+  /* Folio-by-chapter numbering */
+  @bottom-center {
+    <strong class="ph b">content: counter(chapter-number) "-" counter(page);
+</strong>  }</code></pre></div>
+      <p class="p">This will create the result "1-1" for the first page of the first chapter.</p>
+      <div class="p">CSS provides two mechanisms for capturing content to be used by reference:<ul class="ul" id="topic_fws_skc_vcb__ul_mvs_2wc_vcb">
+          <li class="li">String variables</li>
+          <li class="li">Saved elements</li>
+        </ul></div>
+      <p class="p">String variables can be set from the content or attribute values of elements without
+        disturbing those elements. Saved elements capture entire elements but take those elements
+        out of the main flow.</p>
+      <p class="p">Creating and managing string variables and saved elements is complete subject on its own
+        and is covered elsewhere.</p>
+      <p class="p">String variables are easy to create and reference but are limited as to what you can do to
+        style them, as they will reflect only the styles set for the entire box: there is no way to
+        style different referenced string variables differently in a single box.</p>
+      <p class="p">By contrast, element variables are literally moved into the margin box with all their
+        markup structure intact, so you can style them just as you would in any other contexts.</p>
+      <div class="note tip note_tip"><span class="note__title">Tip:</span> You cannot use saved elements with anything else in the
+          <span class="keyword">content:</span> property of a margin box.</div>
+      <div class="p">For example, say you need to have up to three levels of heading reflected in the running
+        heading, with each level on its own line. You can't do this with string variables so you
+        have to use saved
+        elements:<pre class="pre codeblock"><code>@page :right {
+
+  ...
+
+  /* Multi-line running head */
+  @top-right {
+    <strong class="ph b">content: element(sectionTitles last);</strong>
+  }
+  ...
+}</code></pre></div>
+      <p class="p">The name "sectionTitles" refers to an element that has been saved by the rule for the
+        element that provides section titles data. The keyword <span class="keyword">last</span> indicates
+        that the value should be the last set for the variable on the current page. On a left-hand
+        page you would use the keyword <span class="keyword">start</span> to get the value current at the
+        start of the page.</p>
+      <div class="p">The saved element "sectionTitles" could have been created like
+        so:<pre class="pre codeblock"><code>running-head-section-titles {
+  position: running(sectionTitles);
+}</code></pre></div>
+      <p class="p">The <span class="keyword">position:</span> property value "running()" takes the context element
+        (&lt;running-head-section-titles&gt; in this case) and saves it for later reference via an
+          <span class="keyword">element()</span> reference in a margin box.</p>
+      <div class="note note note_note"><span class="note__title">Note:</span> Elements with a <span class="keyword">position:</span> of "running()" are taken out of the normal
+        flow. That means that you can't, for example, store a section's title element and also have
+        that title display in the normal flow. This means that you must have separate elements to
+        hold the structured content you need for margin boxes. This is one of the main reasons that
+        even directly-authored HTML needs to be transformed to make it ready to style with
+        CSS.</div>
+    </div>
+  </article>
+  <article class="topic division nested1" aria-labelledby="ariaid-title11" id="topic_amn_bfd_vcb">
+    <h2 class="title topictitle2" id="ariaid-title11">Footnotes</h2>
+    <div class="body">
+      <div class="p">Pages can have a footnote region that is used only if there are footnotes on the page,
+        defined by the <span class="keyword">@footnote</span>
+        rule:<pre class="pre codeblock"><code>@page {
+   
+  ...
+
+  @footnote {
+    width: 100%;
+    border-top: 0.5pt solid black;
+    margin-top: 0.5in;
+    border-length: 0.5in;    
+  }
+}</code></pre></div>
+      <div class="p">You create footnotes by using a <span class="keyword">float:</span> value of
+        "footnote":<pre class="pre codeblock"><code>aside.footnote {
+  <strong class="ph b">float: footnote;</strong>
+  font-weight: normal;
+  font-style: normal;
+  font-size: 10pt;
+  text-align: justify;
+  text-indent: 1pc;
+  text-transform: none;
+}  </code></pre></div>
+      <div class="p">When you create a footnote float, a <span class="keyword">::footnote-call</span> pseudo-element is
+        left in its place so you can create an appropriate footnote reference,
+        e.g.:<pre class="pre codeblock"><code>aside::footnote-call {
+  content: counter(footnote);
+  font-size: 8pt;
+  vertical-align: super;
+}</code></pre></div>
+      <p class="p">The counter named "footnote" is not built in—you need to define the count to use for
+        footnotes in your page masters. See <a class="xref" href="#topic_zdz_y1d_vcb">Page Numbers and Other Counters</a>.</p>
+      <div class="p">With the footnote area the floated footnote element is preceded by a
+          <span class="keyword">::footnote-marker</span> pseudo-element, which you can use to generate the
+        footnote number or callout within the footnote
+        area:<pre class="pre codeblock"><code>aside::footnote-marker {
+  content: counter(footnote);
+  font-weight: normal;
+  font-style: normal;
+  font-size: 8pt;
+  vertical-align: super;
+  display: inline;  
+}</code></pre></div>
+      <div class="p">If you want to use a sequence of symbols instead of numbers, you can specify the symbol set
+        as part of the <span class="keyword">counter()</span>
+        reference:<pre class="pre codeblock"><code>aside::footnote-call {
+  content: counter(footnote<strong class="ph b">, symbols('*' '†' '‡')</strong>);
+  font-size: 8pt;
+  vertical-align: super;
+}
+
+aside::footnote-marker {
+  content: counter(footnote<strong class="ph b">, symbols('*' '†' '‡')</strong>);
+  font-weight: normal;
+  font-style: normal;
+  font-size: 8pt;
+  vertical-align: super;
+  display: inline;  
+}</code></pre></div>
+      <p class="p">This will create callouts with the symbols, e.g. "*", "†", "‡", "**", "††", etc.</p>
+      <p class="p">Note that the current CSS footnote specification is underspecified and thus leaves a lot to
+        processors in terms of exactly how to manage the rendition of footnotes. If you have
+        out-of-the-ordinary footnote requirements you will almost certainly need to use extensions
+        provided by your CSS engine.</p>
+    </div>
+  </article>
+  <article class="topic division nested1" aria-labelledby="ariaid-title12" id="topic_zdz_y1d_vcb">
+    <h2 class="title topictitle2" id="ariaid-title12">Page Numbers and Other Counters</h2>
+    <div class="body">
+      <p class="p">CSS does not have a built-in notion of "page number" the way that XSL-FO does, for
+        example.</p>
+      <p class="p">Rather you define your own counters and then refer to them in margin boxes or in the main
+        flow using counter references.</p>
+      <div class="bodydiv fo-mapping">
+        <p class="p">CSS does not have the same concept of "folio" as FO 1.1 does. In XSL-FO the page number
+          counter is a property of the page sequence. In XSL-FO 1.1 you can also define a prefix and
+          suffix for the folio that is then reflected in page number references. CSS does not have
+          these concepts, so any kind of page number prefix or suffix is created with literal text
+          as part of the <span class="keyword">content:</span> property of the margin boxes that reflect page
+          numbers.</p>
+        <p class="p">The CSS equivalent of FO page number setting, resetting, and incrementing is done through
+          normal CSS counter controls within the <span class="keyword">@page</span> rule.</p>
+        <div class="p">In CSS you create a new variable simply by naming it in a
+            <span class="keyword">counter-reset:</span> or <span class="keyword">counter-increment:</span>
+          property:<pre class="pre codeblock"><code>/* Base page definition */
+@page {
+  <strong class="ph b">counter-increment: page;</strong>
+}
+
+@page :first {
+  <strong class="ph b">counter-reset: page;</strong>
+}</code></pre></div>
+        <p class="p">The first <span class="keyword">@page</span> rule have the effect of creating counter named "page"
+          and indicates that it should be incremented for each new page (the initial value of a
+          counter is zero (0) unless explicitly set to a different value).</p>
+        <p class="p">The <span class="keyword">@page</span> rule for <span class="keyword">:first</span> pages resets the counter
+          "page", which sets the counter to zero. The inherited base <span class="keyword">@page</span> rule
+          will then cause the counter to be incremented, making the page counter value for first
+          pages "1".</p>
+        <p class="p">Note that there's no magic to the counter name "page" here, it's just an obvious
+          convention.</p>
+        <p class="p">Note that you're not limited to a single counter either.</p>
+        <p class="p">For example, in one of my projects they wanted to have a "page n of m" tagline on pages
+          when doing draft printing, that reflects the absolute page numbers and the total number of
+          pages.</p>
+        <div class="p">To do this I simply created a second counter that is never
+          reset:<pre class="pre codeblock"><code>/* Base page definition */
+@page {
+  counter-increment: page;
+  counter-increment: absPage; /* Absolute page number */
+}</code></pre></div>
+        <div class="p">As part of the HTML preparation transform I generated a paragraph with a fixed ID value
+          as the last paragraph in the book, ensuring that it would always be on the last
+          page:<pre class="pre codeblock"><code>  ...
+  <strong class="ph b">&lt;p id="last-element-in-pub"&gt;&nbsp;&lt;/p&gt;</strong>&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+        <div class="p">With those two things I could then create a tagline in one of the otherwise unused margin
+          boxes:<pre class="pre codeblock"><code>@page {
+
+  ...
+
+  @top-left {
+    <strong class="ph b">content: Page counter(absPage) of target-counter('#last-element-in-pub', absPage);</strong>
+  }
+  
+  ...
+
+}</code></pre></div>
+        <p class="p">The <span class="keyword">counter()</span> function gets the current value of the "absPage" counter
+          while the <span class="keyword">target-counter()</span> function gets the value as it is for the
+          referenced element, which we know will always be on the last page.</p>
+        <p class="p">You can increment the counter by a value other than one (1).</p>
+        <div class="p">For example, you need to produce a publication where all the left-hand pages will be
+          printed from your source but the right-hand pages will produced in a different way and
+          interleaved later, but you want the page numbers to be normal, with even numbers on
+          left-hand pages. But you're only generating the left-hand pages, so you need to increment
+          by
+          2:<pre class="pre codeblock"><code>@page {
+  <strong class="ph b">counter-increment: page 2;</strong>
+  @bottom-left {
+    content: "Page " counter(page);
+  }
+}
+
+@page :first {
+  <strong class="ph b">counter-reset: page 2;</strong>
+}</code></pre></div>
+        <p class="p">The value "page 2" for <span class="keyword">counter-increment:</span> says "increment counter
+          'page' by 2". The value "page 2" for the <span class="keyword">counter-reset:</span> property says
+          "Set counter 'page' to the value '2'".</p>
+        <p class="p">In a typical publication you will need to count many things in addition to pages:
+          chapters and sections, footnotes, figures, tables, etc.</p>
+        <p class="p">For most of these it is probably easier or better to do the counting in your HTML
+          preparation transform rather than using CSS counters.</p>
+        <p class="p">However, some counters depend on the pagination, such as footnotes.</p>
+        <div class="p">To number footnotes within pages you define a footnote counter and then reset it for each
+          page:<pre class="pre codeblock"><code>@page {
+  counter-reset: footnote;
+
+}</code></pre></div>
+      </div>
+    </div>
+  </article>
+  <article class="topic division nested1" aria-labelledby="ariaid-title13" id="topic_jkr_x1d_vcb">
+    <h2 class="title topictitle2" id="ariaid-title13">Creating and Managing String and Element Variables</h2>
+  </article>
+</article><article class="topic division nested0" aria-labelledby="ariaid-title14" id="html-preparation-transforms">
+    <h1 class="title topictitle1" id="ariaid-title14">HTML Preparation Transforms</h1>
+  
+    <div class="body"><p class="shortdesc">It is always necessary to do some amount of preparation of your HTML to make it ready
+    for pagination with CSS.</p>
+        <p class="p">While CSS style sheets are relatively easy to author and understand, CSS depends on their
+      being specific structures and structural patterns in the HTML to be styled. In addition, CSS
+      selectors have limitations compared to XPath that again require additional things in the
+      HTML.</p>
+    <p class="p">The assumption here is that the HTML you're starting with is either generated from some
+      non-HTML source such as DITA, DocBook, S1000D, TEI, or any similar documentation-focused XML
+      vocabulary or is authored directly but without requiring authors themselves to add all the
+      things that might be required for pagination.</p>
+    <p class="p">Thus, there always needs to be some amount of preparation applied to the starting HTML to
+      make it ready to be paginated with CSS.</p>
+    <div class="p">The main tasks that the preparation transform needs to perform are:<ul class="ul" id="html-preparation-transforms__ul_gzy_n2h_vcb">
+        <li class="li">Construct elements needed to populate page margin boxes to create running headers,
+          running feet, or side elements (for example thumb tabs).</li>
+        <li class="li">Add @class attribute values or other attributes to elements to work around limitations
+          in CSS selectors. In particular, you cannot select elements based on properties of
+          following siblings or get attribute values from ancestor elements.</li>
+        <li class="li">Generate tables of contents, back-of-the-book indexes, and other structures that are
+          part of your deliverable but not authored in the source.</li>
+        <li class="li">Move elements that are not presented in the order they are authored. For example, in
+          DITA moving the titles of figures to the bottom of the figure container (DITA figures are
+          authored with the figure title as the first subelement of the figure container).</li>
+        <li class="li">Add wrapper elements in order to control page sequence association or otherwise make
+          styling easier.</li>
+      </ul></div>
+    <p class="p">While there are many technology choices for processing HTML and XML the typical way to
+      implement this kind of transformation is XSLT. This topic assumes that you are using XSLT and
+      that you have a basic understanding of XSLT 2. While XSLT 3 is published and supported by at
+      least the Saxon family of XSLT engines, nothing in HTML preparation requires XSLT 3-specific
+      features. Most of what you need to do can be done easily enough in XSLT 1 with the exception
+      of tasks like index generation and other grouping-related tasks, which are very hard to do in
+      XSLT 1 but relatively easy to do in XSLT 2 using the for-each-group instruction.</p>
+    <div class="p">While the concern of CSS styling is largely separate from the concern of HTML preparation,
+      there is some coordination required. In particular, there needs to be agreement on the
+      following details:<ul class="ul" id="html-preparation-transforms__ul_mw1_1qh_vcb">
+        <li class="li"><code class="ph codeph">@class</code> attribute values and naming conventions. As a general practice,
+          the <code class="ph codeph">@class</code> values should reflect all semantic distinctions made in the
+          source XML in order to give the CSS author as many options as possible. Some typographic
+          effects may require additional class values, such as classes to reflect details of
+          following siblings or children (because selectors cannot select based on the properties of
+          following siblings or descendants).</li>
+        <li class="li">Structural details, such as where additional <code class="ph codeph">&lt;div&gt;</code> or
+            <code class="ph codeph">&lt;span&gt;</code> elements are required in order to make styling possible or
+          more convenient. As a general rule, more structure is better but too much structure can
+          make some selection tasks harder. Creating new page sequences with specific page masters
+          requires having wrapper elements to associate the page sequence with, so that may also
+          require the additional of additional wrappers.</li>
+        <li class="li">Generation of elements to be captured as element variables for use in margin boxes.</li>
+        <li class="li">Generation of numbers as literal text with distinguishing markup to avoid the need to
+          use CSS counters where doing the counting in the transform is either required or easier to
+          implement. Doing counting in the transform allows the CSS styles to be more generic. Doing
+          enumeration in with CSS counters makes the transform more generic where there could be
+          presentational differences in how things are numbered.</li>
+        <li class="li">Page number formats for elements that generate page number references. Because page
+          numbering details are not properties of page masters but simply use normal CSS counters,
+          when making a page number reference you have to know, for the element you're referencing,
+          how the page number should be formatted: arabic, roman numerals, or alphabetic. The number
+          format details are not a property of the counter nor are they a property of the page
+          master itself, so you have to specify the number formatting as part of the
+            <span class="keyword">target-counter()</span> specification, which means you need to put that
+          information on the element that will generate the page number reference.</li>
+        <li class="li">Markup details for tables of contents and other generated structures.</li>
+      </ul></div>
+    <p class="p">HTML preparation transforms that are intended to be more or less generic so that they can be
+      used for a variety of documents or types of documents and support a variety of different page
+      designs should provide clear extension points to make it easy to adapt them to specific
+      requirements.</p>
+    </div>
+  <article class="topic division nested1" aria-labelledby="ariaid-title15" id="topic_gyb_k3h_vcb">
+    <h2 class="title topictitle2" id="ariaid-title15">Elements for Page Margin Boxes</h2>
+    <div class="body">
+      <p class="p">If you have any running heads, feet, or side components that require something more than
+        simple strings, even something as simple as different formatting for inline content, then
+        you need to use CSS element variables to capture the elements using the
+          <span class="keyword">running()</span> function in <span class="keyword">position:</span> properties. A
+        typical example of this would be a running head that reflects chapter or section titles
+        where the title may contain inline markup that should be reflected in the running head as
+        well. For example, in a software-related manual you might have titles that include mentions
+        of keywords or functions where they keywords or functions are given a distinct typographic
+        treatment.</p>
+      <p class="p">As a general rule, you should assume that all titles reflected in running heads or feet may
+        having embedded markup that needs to be preserved and thus the use of element variables is
+        required.</p>
+      <p class="p">Because elements with a <span class="keyword">position:</span> of <span class="keyword">running()</span> are
+        taken out of the normal flow, you cannot simply use the element you want to reflect in the
+        margin box directly. You must create a new element whose only purpose is to be the element
+        variable you need for the margin box.</p>
+      <div class="p">For example, if the base HTML markup for a chapter
+        is:<pre class="pre codeblock"><code>&lt;section id="chapter-123" class="chapter"&gt;
+  &lt;header&gt;
+    &lt;h1&gt;&lt;span class="enumeration"&gt;Chapter 1. &lt;/span&gt;
+        <strong class="ph b">&lt;span class="title"&gt;Understanding The &lt;span class="cmd"&gt;doall&lt;/span&gt; Command&lt;/span&gt;</strong>&lt;/h1&gt;
+  &lt;/header&gt;
+  &lt;div&gt;
+    ... body of section ...
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>and
+        you want the content of the "title" <code class="ph codeph">&lt;span&gt;</code> element as the running
+        heading, you cannot simply use <code class="ph codeph">position: running(chapterTitle);</code> on the
+          <code class="ph codeph">&lt;span&gt;</code> element because that would take it out of the main flow,
+        leaving the chapter title as just "Chapter 1. ".</div>
+      <p class="p">Instead, you need to create a new element that has a copy of the elements you want. Note
+        that you aren't limited to HTML-defined elements at this point, so you can name your
+        generated elements anything you want. An obvious choice is to use the same name for the
+        generated elements as for the element variables that use them. However, the names you use
+        are arbitrary as long as they are sufficiently distinct.</p>
+      <div class="p">If the CSS expects the element variable to have the name "chapterTitle" then the prepared
+        HTML can look like
+        this:<pre class="pre codeblock"><code>&lt;section id="chapter-123" class="chapter"&gt;
+  &lt;header&gt;
+    <strong class="ph b">&lt;chapterTitle&gt;&lt;span class="title"&gt;Understanding The &lt;span class="cmd"&gt;doall&lt;/span&gt; Command&lt;/span&gt;&lt;/chapterTitle&gt;</strong>
+    &lt;h1&gt;&lt;span class="enumeration"&gt;Chapter 1. &lt;/span&gt;
+        &lt;span class="title"&gt;Understanding The &lt;span class="cmd"&gt;doall&lt;/span&gt; Command&lt;/span&gt;&lt;/h1&gt;
+  &lt;/header&gt;
+  &lt;div&gt;
+    ... body of section ...
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre></div>
+      <p class="p">Note that the <code class="ph codeph">&lt;chapterTitle&gt;</code> element is the first thing in the
+          <code class="ph codeph">&lt;header&gt;</code> element. This is to ensure that it is the first thing on any
+        page started by this section so that the "start" and "first" options for element variable
+        references will produce the correct result.</p>
+      <div class="p">To capture the <code class="ph codeph">&lt;chapterTitle&gt;</code> element as an element variable you use
+          <span class="keyword">position:</span> with the <span class="keyword">running()</span>
+        function:<pre class="pre codeblock"><code>chapterTitle {
+  position: running(chapterTitle);
+}</code></pre></div>
+      <p class="p">This rule selects all <code class="ph codeph">&lt;chapterTitle&gt;</code> elements and stores them in an
+        element variable named "chapterTitle". Note that there's no requirement that the element and
+        the element variable have the same name, that's just the convention used here. Because the
+        position of "running" takes element out of the normal flow you don't have to do anything
+        here in order to prevent the <code class="ph codeph">&lt;chapterTitle&gt;</code> element from being presented
+        in the main flow.</p>
+      <div class="p">Finally, in the <span class="keyword">@page</span> rules for the pages that need to reflect the
+        chapter title in margin boxes, you would refer to the "chapterTitle" variable using the
+          <span class="keyword">element()</span>
+        function:<pre class="pre codeblock"><code>@page :left {
+  
+  @top-left {
+    <strong class="ph b">content: element(chapterTitle);</strong>
+  }
+}</code></pre></div>
+      <div class="p">Finally, to style the copied <code class="ph codeph">&lt;span&gt;</code> element with the chapter title in
+        the margin box, you use a selector that includes the element
+          <code class="ph codeph">&lt;chapterTitle&gt;</code>:<pre class="pre codeblock"><code>
+/* Chapter title as used in margin boxes: */
+
+chapterTitle span.title {
+  font-size: 8pt;
+  font-weight: normal;
+}</code></pre></div>
+      <div class="p">The styling for the "cmd" span should not specify it's font size so that it will inherit it
+        in whatever context it occurs
+        in:<pre class="pre codeblock"><code>span.cmd {
+  font-family: monospace;
+  font-weight: bold;
+}</code></pre></div>
+      <p class="p">With these rules and the generated <code class="ph codeph">&lt;chapterTitle&gt;</code> element you should
+        now get bold, monospaced font for the command name "doall" in the running heading, as well
+        as in the chapter title as presented in the main flow.</p>
+      <p class="p">Note that there is an unavoidable need for coordination between the author of the CSS style
+        sheet and the author of the HTML preparation transform so that the transform author and CSS
+        author know what elements are required in order to populate the margin boxes
+        appropriately.</p>
+    </div>
+  </article>
+</article><div class="fn"><a name="fntarg_1" href="#fnsrc_1"><sup>1</sup></a>  <cite class="cite">CSS Paged Media
+          Module Level
+      3</cite></div></article></main></body></html>
