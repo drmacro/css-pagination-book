@@ -1,4 +1,6 @@
-# CSS Pagination
+# CSS Pagination Book
+
+Author: Eliot Kimber
 
 This project provides the DITA source for a how-to book on using CSS for pagination.
 
