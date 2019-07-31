@@ -22,7 +22,7 @@ Open-source implementations include:
 * Weasyprint: https://weasyprint.org
 * ???
 
-This publication is available for free in its HTML form as published through this github repository.
+This publication is available for free in its HTML form as published through this github repository: https://drmacro.github.io/css-pagination-book/
 
 The intent is to publish it as a printed book.
 
