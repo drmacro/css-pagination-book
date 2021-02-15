@@ -107,14 +107,14 @@
 /* Duplex pages with wider
    binding-edge margins:
  */
-@page left: {
+@page :left {
   margin-left: 5pc;
-  right-right: 8pc;
+  margin-right: 8pc;
 }
 
-@page right: {
+@page :right {
   margin-left: 8pc;
-  right-right: 5pc;
+  margin-right: 5pc;
 }</codeblock></p>
       <p>This set of <keyword>@page</keyword> rules defines all pages to be A4 portrait pages with
         the page number at the bottom. The left and right page rules create a wider binding (inside)
@@ -170,14 +170,14 @@
 /* Duplex pages with wider
    binding-edge margins:
  */
-@page portrait left: {
+@page portrait :left {
   margin-left: 5pc;
-  right-right: 8pc;
+  margin-right: 8pc;
 }
 
-@page portrait right: {
+@page portrait :right {
   margin-left: 8pc;
-  right-right: 5pc;
+  margin-right: 5pc;
 }
 
 /* Table of Contents first page
